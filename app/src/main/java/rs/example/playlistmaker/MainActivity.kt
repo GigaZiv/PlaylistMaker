@@ -1,14 +1,27 @@
 package rs.example.playlistmaker
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val b1 = findViewById<Button>(R.id.search)
+        val b2 = findViewById<Button>(R.id.media)
+        val b3 = findViewById<Button>(R.id.tools)
+
+        b1.setOnClickListener {
+            startActivity(Intent(this@MainActivity, FindActivity::class.java))
+        }
+        b2.setOnClickListener {
+            startActivity(Intent(this@MainActivity, MediaActivity::class.java))
+        }
+        b3.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+        }
     }
 }

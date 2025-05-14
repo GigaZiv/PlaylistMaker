@@ -11,4 +11,6 @@
     <string name="c_theme_dark">Темная тема</string>
     <string name="barsik">barsik</string>
     <string name="title_activity_order">wedwedwedwedwed</string>
+    <string name="findactivity">FindActivity</string>
+    <string name="media">Media</string>
 </resources>
