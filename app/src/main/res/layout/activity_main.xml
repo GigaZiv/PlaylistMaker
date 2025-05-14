@@ -40,7 +40,7 @@
             android:paddingTop="24dp">
 
             <Button
-                android:id="@+id/search"
+                android:id="@+id/find"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
