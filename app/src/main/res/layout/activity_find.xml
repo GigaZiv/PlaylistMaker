@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".FindActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="FindActivity"
+        android:gravity="center">
+
+    </TextView>
 </androidx.constraintlayout.widget.ConstraintLayout>

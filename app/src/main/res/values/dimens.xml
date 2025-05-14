@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="settings_icons_padding_left">10dp</dimen>
+    <dimen name="font_size_medium">12sp</dimen>
+    <dimen name="font_size_text_16">16sp</dimen>
+    <dimen name="min_height_option">61dp</dimen>
+    <dimen name="icon_padding">10dp</dimen>
+</resources>
