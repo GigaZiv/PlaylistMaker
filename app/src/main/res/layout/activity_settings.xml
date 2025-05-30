@@ -3,38 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:padding="@dimen/i_p_10">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/i_p_10"
+    tools:context=".SettingsActivity">
 
     <TableRow android:gravity="center_vertical">
-
         <TextView
-            android:id="@+id/back_to_main"
-            android:layout_height="wrap_content"
+            android:id="@+id/back_to_main_from_settings"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center_vertical"
+            style="@style/s_tool_bar_text"
             android:layout_weight="1"
-            android:drawablePadding="@dimen/i_p_20"
-            android:padding="5dp"
             android:text="@string/c_tools"
-            android:textColor="@color/black"
-            android:textFontWeight="@integer/fw_100"
-            android:textSize="@dimen/fs_text_22"
-            android:textStyle="bold"
             app:drawableStartCompat="@drawable/arrow_back" />
     </TableRow>
 
     <TableRow
         android:gravity="center_vertical"
+        android:paddingStart="6dp"
+        android:paddingEnd="0dp"
         android:minHeight="@dimen/m_height_61">
 
         <TextView
+            style="@style/s_text_view_setting"
             android:layout_weight="1"
-            android:text="@string/c_theme_dark"
-            android:textColor="@color/black"
-            android:textFontWeight="@integer/fw_400"
-            android:textSize="@dimen/fs_text_16"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/c_theme_dark"/>
 
         <androidx.appcompat.widget.SwitchCompat
+            style="@style/s_switch"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:minWidth="48dp" />
@@ -42,58 +40,58 @@
 
     <TableRow
         android:gravity="center_vertical"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
         android:minHeight="@dimen/m_height_61">
 
         <TextView
+            android:id="@+id/share_app"
+            style="@style/s_text_view_setting"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:onClick="onClickAction"
+            android:clickable="true"
             android:layout_weight="1"
             android:text="@string/c_share"
-            android:textColor="@color/black"
-            android:textFontWeight="@integer/fw_400"
-            android:textSize="@dimen/fs_text_16"
-            android:textStyle="bold" />
+            app:drawableEndCompat="@drawable/share" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/share" />
+
     </TableRow>
 
     <TableRow
         android:gravity="center_vertical"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
         android:minHeight="@dimen/m_height_61">
 
         <TextView
+            android:id="@+id/support_app"
+            style="@style/s_text_view_setting"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:onClick="onClickAction"
+            android:clickable="true"
             android:layout_weight="1"
             android:text="@string/c_w_support"
-            android:textColor="@color/black"
-            android:textFontWeight="@integer/fw_400"
-            android:textSize="@dimen/fs_text_16"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/support" />
+            app:drawableEndCompat="@drawable/support"/>
     </TableRow>
 
     <TableRow
         android:gravity="center_vertical"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
         android:minHeight="@dimen/m_height_61">
 
         <TextView
+            android:id="@+id/terms_app"
+            style="@style/s_text_view_setting"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:onClick="onClickAction"
+            android:clickable="true"
             android:layout_weight="1"
             android:text="@string/c_lic"
-            android:textColor="@color/black"
-            android:textFontWeight="@integer/fw_400"
-            android:textSize="@dimen/fs_text_16"
-            android:textStyle="bold" />
+            app:drawableEndCompat="@drawable/arrow_right" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/arrow_right" />
     </TableRow>
 </TableLayout>
