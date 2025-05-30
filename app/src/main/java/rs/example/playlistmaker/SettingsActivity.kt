@@ -26,7 +26,7 @@ class SettingsActivity : AppCompatActivity() {
                 val i = Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
                     putExtra(Intent.EXTRA_SUBJECT, "Курс Android-разработчик")
-                    putExtra(Intent.EXTRA_TEXT, "https://practicum.yandex.ru/android-developer/")
+                    putExtra(Intent.EXTRA_TEXT, getString(R.string.urlOfPracticum))
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }
                 startActivity(i)
@@ -35,8 +35,8 @@ class SettingsActivity : AppCompatActivity() {
                 val i = Intent(Intent.ACTION_SENDTO).apply {
                     data = "mailto:".toUri()
                     putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.myEmail)))
-                    putExtra(Intent.EXTRA_SUBJECT,  R.string.themeSupport)
-                    putExtra(Intent.EXTRA_TEXT, R.string.massageSupport)
+                    putExtra(Intent.EXTRA_SUBJECT, getString(R.string.themeSupport))
+                    putExtra(Intent.EXTRA_TEXT, getString(R.string.massageSupport))
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }
                 startActivity(i)

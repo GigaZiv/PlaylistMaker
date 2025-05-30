@@ -16,6 +16,7 @@
     <string name="themeSupport">Сообщение разработчикам и разработчицам приложения Playlist Market</string>
     <string name="massageSupport">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="termsOfUse">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="urlOfPracticum">https://practicum.yandex.ru/android-developer/</string>
     <string name="myEmail">i@iberholz.ru</string>
     <string name="search">Поиск</string>
     <string name="searchEd">Поиск</string>
