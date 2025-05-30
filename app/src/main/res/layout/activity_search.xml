@@ -16,46 +16,6 @@
         android:gravity="center_vertical"
         android:text="@string/search" />
 
-
-<!--Не знаю почему так в тех.задании но лучше это сделать с LinearLayout!!!!!    -->
-<!--    <LinearLayout-->
-<!--        style="@style/s_search_bg"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@drawable/corner"-->
-<!--        android:orientation="horizontal">-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/etSearch"-->
-<!--            style="@style/s_search_text_view"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="39dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:drawablePadding="9dp"-->
-<!--            android:gravity="center_vertical"-->
-<!--            android:hint="@string/c_search"-->
-<!--            android:imeOptions="actionDone"-->
-<!--            android:inputType="text"-->
-<!--            android:maxLength="50"-->
-<!--            android:maxLines="1"-->
-<!--            android:paddingStart="13dp"-->
-<!--            android:paddingEnd="14dp"-->
-<!--            android:singleLine="true"-->
-<!--            android:textSize="@dimen/fs_text_16"-->
-<!--            app:drawableStartCompat="@drawable/ic_search" />-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/iwClear"-->
-<!--            style="@style/s_clear_iw"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_marginEnd="12dp"-->
-<!--            android:contentDescription="@string/c_search_clear"-->
-<!--            android:src="@drawable/ic_close_24"-->
-<!--            android:visibility="gone" />-->
-
-<!--    </LinearLayout>-->
     <FrameLayout
         style="@style/s_search_bg"
         android:layout_width="match_parent"

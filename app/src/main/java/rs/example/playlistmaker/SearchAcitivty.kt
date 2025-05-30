@@ -12,11 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 
 class SearchActivity : AppCompatActivity() {
 
-    /* Идентификатор */
-    companion object {
-        private const val ID_SEARCH_QUERY = "ID_SEARCH_QUERY"
-    }
-
     private var sText: String = ""
     private lateinit var etSearch: EditText
 
@@ -27,7 +22,6 @@ class SearchActivity : AppCompatActivity() {
         etSearch = findViewById<EditText>(R.id.etSearch)
         val iwClear = findViewById<ImageView>(R.id.iwClear)
 
-        // В ТехЗадании не описано как именно и что делать с клавой, просто сркрыть и все ?.... ?
         iwClear.setOnClickListener {
             etSearch.text.clear()
             val view: View? = this.currentFocus
@@ -73,12 +67,16 @@ class SearchActivity : AppCompatActivity() {
 
     }
 
-    // Я бы конечно сделал по другому, но раз так надо в ТехЗадании, то хозяин барин
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
         sText = savedInstanceState.getString(ID_SEARCH_QUERY).toString()
         etSearch.setText(sText)
+    }
+
+    /* Идентификатор */
+    companion object {
+        private const val ID_SEARCH_QUERY = "ID_SEARCH_QUERY"
     }
 
 }
