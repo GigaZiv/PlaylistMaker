@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".SearchActivity">
+
+    <TextView
+        android:id="@+id/back_to_main_from_search"
+        style="@style/s_tool_bar_text"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center_vertical"
+        android:text="@string/search" />
+
+    <FrameLayout
+        style="@style/s_search_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/corner">
+
+        <EditText
+            android:id="@+id/etSearch"
+            style="@style/s_search_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:autofillHints="none"
+            android:drawablePadding="9dp"
+            android:gravity="center_vertical"
+            android:hint="@string/c_search"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:paddingStart="13dp"
+            android:paddingEnd="14dp"
+            android:singleLine="true"
+            android:textSize="@dimen/fs_text_16"
+            app:drawableStartCompat="@drawable/ic_search" />
+
+        <ImageView
+            android:id="@+id/iwClear"
+            style="@style/s_clear_iw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_gravity="end|center_vertical"
+            android:contentDescription="@string/c_search_clear"
+            android:src="@drawable/ic_close_24"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+</LinearLayout>
