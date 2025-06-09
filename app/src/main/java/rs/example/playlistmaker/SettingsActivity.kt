@@ -13,7 +13,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val t = findViewById<TextView>(R.id.back_to_main_from_settings)
+         val t = findViewById<TextView>(R.id.back_to_main_from_settings)
 
         t.setOnClickListener {
             this.finish()
