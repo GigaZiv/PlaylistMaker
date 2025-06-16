@@ -13,7 +13,7 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/fs_text_22</item>
-        <item name="android:textFontWeight" >500</item>
+        <item name="android:textFontWeight">500</item>
         <item name="android:letterSpacing">0</item>
         <item name="iconGravity">textStart</item>
         <item name="iconPadding">@dimen/icp_8</item>

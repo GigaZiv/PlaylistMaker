@@ -10,13 +10,11 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import rs.example.playlistmaker.R
-import rs.example.playlistmaker.adapter.SearchAdapter.TrackHolder
+import rs.example.playlistmaker.adapter.TracksAdapter.TrackHolder
 import rs.example.playlistmaker.models.Track
-import java.text.SimpleDateFormat
-import java.util.Locale
 
-class SearchAdapter(
-    private val itemsTrack: ArrayList<Track>
+class TracksAdapter(
+    private val itemsTrack: List<Track>
 ) : Adapter<TrackHolder>() {
 
     override fun onCreateViewHolder(
@@ -39,20 +37,20 @@ class SearchAdapter(
         return itemsTrack.size
     }
 
-    inner class TrackHolder(v: View) : RecyclerView.ViewHolder(v) {
+    inner class TrackHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        private val itemTrackImage: ImageView by lazy { v.findViewById(R.id.ivTrackImage) }
-        private val itemNameSong: TextView by lazy { v.findViewById(R.id.twNameSong) }
-        private val itemNameGroup: TextView by lazy { v.findViewById(R.id.twNameGroup) }
-        private val itemDuration: TextView by lazy { v.findViewById(R.id.twDuration) }
+        private val itemTrackImage: ImageView by lazy { view.findViewById(R.id.ivTrackImage) }
+        private val itemNameSong: TextView by lazy { view.findViewById(R.id.twNameSong) }
+        private val itemNameGroup: TextView by lazy { view.findViewById(R.id.twNameGroup) }
+        private val itemDuration: TextView by lazy { view.findViewById(R.id.twDuration) }
 
-        fun bind(i: Track) {
-            itemNameSong.text = i.trackName
-            itemNameGroup.text = i.artistName
-            itemDuration.text = i.trackTime
+        fun bind(trackItem: Track) {
+            itemNameSong.text = trackItem.trackName
+            itemNameGroup.text = trackItem.artistName
+            itemDuration.text = trackItem.trackTime
 
             Glide.with(itemView)
-                .load(i.artworkUrl100)
+                .load(trackItem.artworkUrl100)
                 .centerCrop()
                 .placeholder(R.drawable.ic_track_default)
                 .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.crt_2)))

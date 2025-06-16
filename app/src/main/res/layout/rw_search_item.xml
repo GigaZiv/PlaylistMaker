@@ -60,6 +60,6 @@
     <ImageView
         style="@style/s_iv"
         android:contentDescription="@string/c_medias"
-        android:src="@drawable/arrow_right"/>
+        android:src="@drawable/arrow_right_track"/>
 
 </LinearLayout>
