@@ -9,6 +9,10 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import rs.example.playlistmaker.adapter.TracksAdapter
+import rs.example.playlistmaker.models.Track
 
 class SearchActivity : AppCompatActivity() {
 
@@ -48,6 +52,30 @@ class SearchActivity : AppCompatActivity() {
         }
 
         etSearch.addTextChangedListener(watcher)
+
+        init()
+
+    }
+
+    private fun init() {
+
+        val listTrack = buildList<Track> {
+            resources.getStringArray(R.array.tracks).forEach { s ->
+                val arrayItem = s.split(",").toTypedArray()
+                add(
+                    Track(
+                        trackName = arrayItem[0],
+                        artistName = arrayItem[1],
+                        trackTime = arrayItem[2],
+                        artworkUrl100 = arrayItem[3]
+                    )
+                )
+            }
+        }
+
+        val rw = findViewById<RecyclerView>(R.id.rcvSearch)
+        rw.layoutManager = LinearLayoutManager(this)
+        rw.adapter = TracksAdapter(listTrack)
 
     }
 

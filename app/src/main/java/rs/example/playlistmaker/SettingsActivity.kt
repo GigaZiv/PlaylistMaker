@@ -13,40 +13,38 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-         val t = findViewById<TextView>(R.id.back_to_main_from_settings)
-
-        t.setOnClickListener {
-            this.finish()
+        findViewById<TextView>(R.id.back_to_main_from_settings).apply {
+            setOnClickListener { this@SettingsActivity.finish() }
         }
 
     }
+
     fun onClickAction(view: View) {
         when (view.id) {
             R.id.share_app -> {
-                val i = Intent(Intent.ACTION_SEND).apply {
+                startActivity(Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
                     putExtra(Intent.EXTRA_SUBJECT, "Курс Android-разработчик")
                     putExtra(Intent.EXTRA_TEXT, getString(R.string.urlOfPracticum))
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
-                startActivity(i)
+                })
             }
+
             R.id.support_app -> {
-                val i = Intent(Intent.ACTION_SENDTO).apply {
+                startActivity(Intent(Intent.ACTION_SENDTO).apply {
                     data = "mailto:".toUri()
                     putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.myEmail)))
                     putExtra(Intent.EXTRA_SUBJECT, getString(R.string.themeSupport))
                     putExtra(Intent.EXTRA_TEXT, getString(R.string.massageSupport))
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
-                startActivity(i)
+                })
             }
+
             R.id.terms_app -> {
-                val i = Intent(Intent.ACTION_VIEW).apply {
+                startActivity(Intent(Intent.ACTION_VIEW).apply {
                     data = getString(R.string.termsOfUse).toUri()
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
-                startActivity(i)
+                })
             }
         }
     }
