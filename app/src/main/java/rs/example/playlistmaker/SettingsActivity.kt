@@ -2,50 +2,52 @@ package rs.example.playlistmaker
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import rs.example.playlistmaker.databinding.ActivitySettingsBinding
 
 
 class SettingsActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
 
-        findViewById<TextView>(R.id.back_to_main_from_settings).apply {
-            setOnClickListener { this@SettingsActivity.finish() }
-        }
-
+    private val binding: ActivitySettingsBinding by lazy {
+        ActivitySettingsBinding.inflate(layoutInflater)
     }
 
-    fun onClickAction(view: View) {
-        when (view.id) {
-            R.id.share_app -> {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        binding.apply {
+            backToMainFromSettings.setOnClickListener {
+                this@SettingsActivity.finish()
+            }
+
+            shareApp.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
                     putExtra(Intent.EXTRA_SUBJECT, "Курс Android-разработчик")
-                    putExtra(Intent.EXTRA_TEXT, getString(R.string.urlOfPracticum))
+                    putExtra(Intent.EXTRA_TEXT, getString(R.string.с_urlOfPracticum))
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 })
             }
 
-            R.id.support_app -> {
+            supportApp.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_SENDTO).apply {
                     data = "mailto:".toUri()
-                    putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.myEmail)))
-                    putExtra(Intent.EXTRA_SUBJECT, getString(R.string.themeSupport))
-                    putExtra(Intent.EXTRA_TEXT, getString(R.string.massageSupport))
+                    putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.с_myEmail)))
+                    putExtra(Intent.EXTRA_SUBJECT, getString(R.string.с_themeSupport))
+                    putExtra(Intent.EXTRA_TEXT, getString(R.string.с_massageSupport))
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 })
             }
-
-            R.id.terms_app -> {
+            termsApp.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW).apply {
-                    data = getString(R.string.termsOfUse).toUri()
+                    data = getString(R.string.с_termsOfUse).toUri()
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 })
             }
         }
+
     }
+
 }

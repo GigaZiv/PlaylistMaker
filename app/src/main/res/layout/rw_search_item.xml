@@ -42,7 +42,7 @@
 
             <ImageView
                 style="@style/s_iv_separate"
-                android:contentDescription="@string/separate"
+                android:contentDescription="@string/с_separate"
                 android:src="@drawable/ic_circle_a"
                 />
 

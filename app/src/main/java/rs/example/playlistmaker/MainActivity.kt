@@ -2,31 +2,34 @@ package rs.example.playlistmaker
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import rs.example.playlistmaker.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private val binding: ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val splash = installSplashScreen()
         splash.setKeepOnScreenCondition { false }
 
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
-        val b1 = findViewById<Button>(R.id.find)
-        val b2 = findViewById<Button>(R.id.media)
-        val b3 = findViewById<Button>(R.id.tools)
-
-        b1.setOnClickListener {
-            startActivity(Intent(this@MainActivity, SearchActivity::class.java))
-        }
-        b2.setOnClickListener {
-            startActivity(Intent(this@MainActivity, MediaActivity::class.java))
-        }
-        b3.setOnClickListener {
-            startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+        binding.apply {
+            search.setOnClickListener {
+                startActivity(Intent(this@MainActivity, SearchActivity::class.java))
+            }
+            media.setOnClickListener {
+                startActivity(Intent(this@MainActivity, MediaActivity::class.java))
+            }
+            tools.setOnClickListener {
+                startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+            }
         }
     }
 }

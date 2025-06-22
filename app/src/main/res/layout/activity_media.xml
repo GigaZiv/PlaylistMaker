@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/media"
+        android:text="@string/с_media"
         android:gravity="center">
 
     </TextView>
