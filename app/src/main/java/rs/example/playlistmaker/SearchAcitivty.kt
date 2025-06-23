@@ -6,14 +6,13 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import androidx.recyclerview.widget.LinearLayoutManager
 import retrofit2.Call
 import rs.example.playlistmaker.adapter.TracksAdapter
 import rs.example.playlistmaker.databinding.ActivitySearchBinding
 import rs.example.playlistmaker.models.Track
 import rs.example.playlistmaker.network.SearchTrackInstance
-import rs.example.playlistmaker.utils.StaffFunctions.clearVisibility
 import retrofit2.Callback
 import retrofit2.Response
 import rs.example.playlistmaker.network.TunesResponse
@@ -34,21 +33,20 @@ class SearchActivity : AppCompatActivity() {
                 etSearch.setText(it.getString(ID_SEARCH_QUERY))
             }
 
-            iwClear.setOnClickListener {
-                etSearch.text.clear()
-                rcvSearch.visibility = View.GONE
+            setSupportActionBar(tbSearch)
 
-                val view: View? = this@SearchActivity.currentFocus
-                val iMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                iMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
-
+            tbSearch.setNavigationOnClickListener {
+                hideKeyboard(); this@SearchActivity.finish()
             }
 
-            rcvSearch.layoutManager = LinearLayoutManager(this@SearchActivity)
+            iwClear.setOnClickListener {
+                etSearch.text.clear(); rcvSearch.visibility = View.GONE; hideKeyboard()
+            }
 
             etSearch.apply {
+
                 doAfterTextChanged { s ->
-                    iwClear.visibility = clearVisibility(s)
+                    iwClear.isVisible = !s.isNullOrEmpty()
                 }
                 setOnEditorActionListener { sender, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -60,11 +58,6 @@ class SearchActivity : AppCompatActivity() {
 
             }
 
-            backToMainFromSearch.setOnClickListener {
-                this@SearchActivity.finish()
-
-            }
-
             bRefreshNetwork.setOnClickListener {
                 llNwNotFound.visibility = View.GONE
                 onRequest(etSearch.text.trim().toString())
@@ -72,6 +65,12 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun hideKeyboard() {
+        val view: View? = this.currentFocus
+        val iMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        iMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     private fun onRequest(paramSearch: String) {

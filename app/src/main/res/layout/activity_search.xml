@@ -5,21 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".SearchActivity">
 
-    <TextView
-        android:id="@+id/back_to_main_from_search"
-        style="@style/s_tool_bar_text"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tbSearch"
+        android:theme="@style/s_tool_bar_nav_icon"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:gravity="center_vertical"
-        android:text="@string/с_search" />
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        app:title="@string/с_search"
+        app:navigationIcon="@drawable/arrow_back"
+        app:titleTextAppearance="@style/s_tool_bar_text" />
 
     <FrameLayout
         style="@style/s_search_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/i_p_8"
+        android:layout_marginStart="@dimen/i_p_16"
+        android:layout_marginEnd="@dimen/i_p_16"
+        android:layout_marginBottom="@dimen/mb_16"
         android:background="@drawable/corner">
 
         <EditText
@@ -62,7 +67,6 @@
             android:id="@+id/rcvSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mt_16"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -83,7 +87,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
                 tools:text="Ничего не нашлось" />
-
 
         </LinearLayout>
 

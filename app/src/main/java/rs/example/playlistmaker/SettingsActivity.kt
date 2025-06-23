@@ -1,8 +1,10 @@
 package rs.example.playlistmaker
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.net.toUri
 import rs.example.playlistmaker.databinding.ActivitySettingsBinding
 
@@ -18,8 +20,26 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.apply {
-            backToMainFromSettings.setOnClickListener {
+
+            setSupportActionBar(tbSetting)
+
+            tbSetting.setNavigationOnClickListener {
                 this@SettingsActivity.finish()
+            }
+
+            swModeUi.apply {
+                isChecked = getModeNightAppUI()
+                setOnCheckedChangeListener { sender, isChecked ->
+                    when (sender.isChecked) {
+                        true -> {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                        }
+
+                        false -> {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        }
+                    }
+                }
             }
 
             shareApp.setOnClickListener {
@@ -48,6 +68,30 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun getModeNightAppUI(): Boolean {
+        return when (AppCompatDelegate.getDefaultNightMode()) {
+            AppCompatDelegate.MODE_NIGHT_YES -> {
+                true
+            }
+
+            AppCompatDelegate.MODE_NIGHT_UNSPECIFIED -> {
+                return when (resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                    Configuration.UI_MODE_NIGHT_YES -> {
+                        true
+                    }
+
+                    else -> {
+                        false
+                    }
+                }
+            }
+
+            else -> {
+                false
+            }
+        }
     }
 
 }

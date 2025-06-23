@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="i_p_8">8dp</dimen>
     <dimen name="i_p_10">10dp</dimen>
     <dimen name="i_p_16">16dp</dimen>
     <dimen name="i_p_20">20dp</dimen>
@@ -14,5 +15,6 @@
     <dimen name="icp_24">24dp</dimen>
     <dimen name="crt_2">2dp</dimen>
     <dimen name="mt_16">16dp</dimen>
+    <dimen name="mb_16">16dp</dimen>
 
 </resources>
