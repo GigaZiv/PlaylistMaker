@@ -1,97 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:padding="@dimen/i_p_10"
+    android:orientation="vertical"
     tools:context=".SettingsActivity">
 
-    <TableRow android:gravity="center_vertical">
-        <TextView
-            android:id="@+id/back_to_main_from_settings"
-            android:layout_height="?attr/actionBarSize"
-            android:gravity="center_vertical"
-            style="@style/s_tool_bar_text"
-            android:layout_weight="1"
-            android:text="@string/c_tools"
-            app:drawableStartCompat="@drawable/arrow_back" />
-    </TableRow>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tbSetting"
+        android:theme="@style/s_tool_bar_nav_icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:minHeight="?attr/actionBarSize"
+        app:navigationIcon="@drawable/arrow_back"
+        app:title="@string/c_tools"
+        app:titleTextAppearance="@style/s_tool_bar_text" />
 
-    <TableRow
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/swModeUi"
+        style="@style/s_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/m_height_61"
+        android:paddingStart="16dp"
+        android:paddingEnd="4dp"
+        android:checked="true"
+        android:text="@string/c_theme_dark" />
+
+    <TextView
+        android:id="@+id/share_app"
+        style="@style/s_text_view_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
         android:gravity="center_vertical"
-        android:paddingStart="6dp"
-        android:paddingEnd="0dp"
-        android:minHeight="@dimen/m_height_61">
+        android:minHeight="@dimen/m_height_61"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/c_share"
+        app:drawableEndCompat="@drawable/share" />
 
-        <TextView
-            style="@style/s_text_view_setting"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="@string/c_theme_dark"/>
-
-        <androidx.appcompat.widget.SwitchCompat
-            style="@style/s_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:minWidth="48dp" />
-    </TableRow>
-
-    <TableRow
+    <TextView
+        android:id="@+id/support_app"
+        style="@style/s_text_view_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
         android:gravity="center_vertical"
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
-        android:minHeight="@dimen/m_height_61">
+        android:minHeight="@dimen/m_height_61"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/c_w_support"
+        app:drawableEndCompat="@drawable/support" />
 
-        <TextView
-            android:id="@+id/share_app"
-            style="@style/s_text_view_setting"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:onClick="onClickAction"
-            android:clickable="true"
-            android:layout_weight="1"
-            android:text="@string/c_share"
-            app:drawableEndCompat="@drawable/share" />
-
-
-    </TableRow>
-
-    <TableRow
+    <TextView
+        android:id="@+id/terms_app"
+        style="@style/s_text_view_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
         android:gravity="center_vertical"
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
-        android:minHeight="@dimen/m_height_61">
+        android:minHeight="@dimen/m_height_61"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/c_lic"
+        app:drawableEndCompat="@drawable/arrow_right" />
 
-        <TextView
-            android:id="@+id/support_app"
-            style="@style/s_text_view_setting"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:onClick="onClickAction"
-            android:clickable="true"
-            android:layout_weight="1"
-            android:text="@string/c_w_support"
-            app:drawableEndCompat="@drawable/support"/>
-    </TableRow>
-
-    <TableRow
-        android:gravity="center_vertical"
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
-        android:minHeight="@dimen/m_height_61">
-
-        <TextView
-            android:id="@+id/terms_app"
-            style="@style/s_text_view_setting"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:onClick="onClickAction"
-            android:clickable="true"
-            android:layout_weight="1"
-            android:text="@string/c_lic"
-            app:drawableEndCompat="@drawable/arrow_right" />
-
-    </TableRow>
-</TableLayout>
+</LinearLayout>
