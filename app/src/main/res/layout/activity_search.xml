@@ -5,21 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".SearchActivity">
 
-    <TextView
-        android:id="@+id/back_to_main_from_search"
-        style="@style/s_tool_bar_text"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tbSearch"
+        android:theme="@style/s_tool_bar_nav_icon"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:gravity="center_vertical"
-        android:text="@string/search" />
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        app:title="@string/с_search"
+        app:navigationIcon="@drawable/arrow_back"
+        app:titleTextAppearance="@style/s_tool_bar_text" />
 
     <FrameLayout
         style="@style/s_search_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/i_p_8"
+        android:layout_marginStart="@dimen/i_p_16"
+        android:layout_marginEnd="@dimen/i_p_16"
+        android:layout_marginBottom="@dimen/mb_16"
         android:background="@drawable/corner">
 
         <EditText
@@ -60,13 +65,61 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvSearch"
-            android:layout_marginTop="@dimen/mt_16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
         </androidx.recyclerview.widget.RecyclerView>
 
+        <LinearLayout
+            android:id="@+id/ll_track_not_found"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="86dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tw_tr_not_found"
+                style="@style/s_text_view_not_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                tools:text="Ничего не нашлось" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_nw_not_found"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="86dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tw_error_network"
+                style="@style/s_text_view_error_network"
+                android:layout_width="312dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="16dp"
+                tools:text="Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету" />
+
+            <Button
+                android:id="@+id/b_refresh_network"
+                style="@style/s_button_error_network"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp" />
+
+        </LinearLayout>
+
+
     </FrameLayout>
+
 
 </LinearLayout>

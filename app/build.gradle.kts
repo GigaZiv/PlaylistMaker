@@ -33,6 +33,11 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
 }
 
 dependencies {
@@ -43,6 +48,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.splashscreen)
+    implementation(libs.squareup.retrofit)
+    implementation(libs.squareup.converter.gson)
     implementation(libs.glide)
     annotationProcessor(libs.glidecompiler)
 

@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Playlist Maker</string>
-    <string name="user_agreement">Пользовательское соглашение</string>
-    <string name="settings">Настройки</string>
+    <string name="с_app_name">Playlist Maker</string>
+    <string name="с_user_agreement">Пользовательское соглашение</string>
+    <string name="с_settings">Настройки</string>
     <string name="c_search">Поиск</string>
     <string name="c_medias">Медиатека</string>
     <string name="c_tools">Настройки</string>
@@ -9,17 +9,16 @@
     <string name="c_w_support">Написать в поддержку</string>
     <string name="c_lic">Пользовательское соглашение</string>
     <string name="c_theme_dark">Темная тема</string>
-    <string name="barsik">barsik</string>
-    <string name="title_activity_order">wedwedwedwedwed</string>
-    <string name="findactivity">FindActivity</string>
-    <string name="media">Media</string>
-    <string name="themeSupport">Сообщение разработчикам и разработчицам приложения Playlist Market</string>
-    <string name="massageSupport">Спасибо разработчикам и разработчицам за крутое приложение!</string>
-    <string name="termsOfUse">https://yandex.ru/legal/practicum_offer/</string>
-    <string name="urlOfPracticum">https://practicum.yandex.ru/android-developer/</string>
-    <string name="myEmail">i@iberholz.ru</string>
-    <string name="search">Поиск</string>
-    <string name="searchEd">Поиск</string>
+    <string name="с_media">Media</string>
+    <string name="с_themeSupport">Сообщение разработчикам и разработчицам приложения Playlist Market</string>
+    <string name="с_massageSupport">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="с_termsOfUse">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="с_urlOfPracticum">https://practicum.yandex.ru/android-developer/</string>
+    <string name="с_myEmail">i@iberholz.ru</string>
+    <string name="с_search">Поиск</string>
     <string name="c_search_clear">Очистить поисковый запрос</string>
-    <string name="separate">Разделитель</string>
+    <string name="с_separate">Разделитель</string>
+    <string name="c_refresh">Обновить</string>
+    <string name="c_nothing_not_found">Ничего не нашлось</string>
+    <string name="c_not_internet">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
 </resources>
