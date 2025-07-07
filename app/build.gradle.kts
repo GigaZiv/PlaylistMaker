@@ -51,6 +51,8 @@ dependencies {
     implementation(libs.squareup.retrofit)
     implementation(libs.squareup.converter.gson)
     implementation(libs.glide)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.fragment)
     annotationProcessor(libs.glidecompiler)
 
     testImplementation(libs.junit)

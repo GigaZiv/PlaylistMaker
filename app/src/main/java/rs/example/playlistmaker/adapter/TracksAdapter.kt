@@ -15,7 +15,8 @@ import rs.example.playlistmaker.models.Track
 import rs.example.playlistmaker.utils.StaffFunctions.getSimpleDateFormat
 
 class TracksAdapter(
-    private val itemsTrack: List<Track>
+    private val itemTracks: List<Track>,
+    private val clickListener: (Track) -> Unit
 ) : Adapter<TrackHolder>() {
 
     override fun onCreateViewHolder(
@@ -23,7 +24,9 @@ class TracksAdapter(
         viewType: Int
     ): TrackHolder {
         return TrackHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.rw_search_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.rw_search_item, parent, false
+            )
         )
     }
 
@@ -31,17 +34,14 @@ class TracksAdapter(
         holder: TrackHolder,
         position: Int
     ) {
-        holder.bind(itemsTrack[position])
+        holder.bind(itemTracks[position])
+        holder.itemView.setOnClickListener { clickListener.invoke(itemTracks[position]) }
     }
 
-    override fun getItemCount(): Int {
-        return itemsTrack.size
-    }
+    override fun getItemCount(): Int = itemTracks.size
 
     inner class TrackHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         private val bindingHolderItem = RwSearchItemBinding.bind(view)
-
         fun bind(trackItem: Track) = with(bindingHolderItem) {
             twNameSong.text = trackItem.trackName
             twNameGroup.text = trackItem.artistName

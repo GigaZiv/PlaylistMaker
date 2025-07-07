@@ -1,5 +1,5 @@
 [versions]
-agp = "8.10.1"
+agp = "8.11.0"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
@@ -10,9 +10,11 @@ material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
 splashscreen = "1.0.1"
-glideVersion = "4.14.2"
-glideCompilerVersion = "4.14.2"
-retrofitVersion = "2.9.0"
+glideVersion = "4.16.0"
+glideCompilerVersion = "4.16.0"
+retrofitVersion = "3.0.0"
+recyclerview = "1.4.0"
+fragment = "1.8.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,6 +32,8 @@ squareup-converter-gson = { group = "com.squareup.retrofit2", name = "converter-
 
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+androidx-fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
 
 
 [plugins]

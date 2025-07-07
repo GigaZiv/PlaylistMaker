@@ -67,7 +67,9 @@
             android:id="@+id/rcvSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="5"
+            tools:listitem="@layout/rw_search_item">
 
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -118,6 +120,44 @@
 
         </LinearLayout>
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/ll_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/s_text_view_history"
+                    android:text="@string/с_search_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/i_p_20"
+                    tools:text="Вы искали" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/rw_search_item"/>
+
+                <Button
+                    android:id="@+id/b_clear_history"
+                    style="@style/s_button_clear_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="24dp" />
+            </LinearLayout>
+
+        </ScrollView>
 
     </FrameLayout>
 
