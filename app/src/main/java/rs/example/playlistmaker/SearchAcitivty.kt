@@ -5,8 +5,12 @@ import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import retrofit2.Call
 import rs.example.playlistmaker.adapter.TracksAdapter
@@ -39,7 +43,14 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.search_activity))
+        { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(top=systemBars.top, bottom = systemBars.bottom)
+            insets
+        }
 
         binding.apply {
 
@@ -64,8 +75,8 @@ class SearchActivity : AppCompatActivity() {
                 doAfterTextChanged { s ->
                     iwClear.isVisible = !s.isNullOrEmpty()
                     if (etSearch.hasFocus() && s?.isEmpty() == true) {
-                        onShowResult(StatusResponse.SUCCESS)
                         if (!trackHistory.readTracks().isEmpty()) {
+                            rcvSearch.isVisible = false
                             llHistory.isVisible = true
                         }
                     } else {
