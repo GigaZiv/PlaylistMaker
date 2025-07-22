@@ -1,13 +1,16 @@
-package rs.example.playlistmaker
+package rs.example.playlistmaker.settings.ui
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
+import rs.example.playlistmaker.App
+import rs.example.playlistmaker.R
 import rs.example.playlistmaker.databinding.ActivitySettingsBinding
-
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -17,7 +20,14 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.settings_activity))
+        { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(top=systemBars.top, bottom = systemBars.bottom)
+            insets
+        }
 
         binding.apply {
 
@@ -28,17 +38,9 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             swModeUi.apply {
-                isChecked = getModeNightAppUI()
+                isChecked = (applicationContext as App).getThemePref()
                 setOnCheckedChangeListener { sender, isChecked ->
-                    when (sender.isChecked) {
-                        true -> {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                        }
-
-                        false -> {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                        }
-                    }
+                    (applicationContext as App).switchTheme(sender.isChecked)
                 }
             }
 
@@ -67,31 +69,5 @@ class SettingsActivity : AppCompatActivity() {
                 })
             }
         }
-
     }
-
-    private fun getModeNightAppUI(): Boolean {
-        return when (AppCompatDelegate.getDefaultNightMode()) {
-            AppCompatDelegate.MODE_NIGHT_YES -> {
-                true
-            }
-
-            AppCompatDelegate.MODE_NIGHT_UNSPECIFIED -> {
-                return when (resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
-                    Configuration.UI_MODE_NIGHT_YES -> {
-                        true
-                    }
-
-                    else -> {
-                        false
-                    }
-                }
-            }
-
-            else -> {
-                false
-            }
-        }
-    }
-
 }

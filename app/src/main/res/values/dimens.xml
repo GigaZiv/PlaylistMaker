@@ -10,6 +10,7 @@
     <dimen name="fs_text_19">19sp</dimen>
     <dimen name="fs_text_22">22sp</dimen>
     <dimen name="m_height_61">61dp</dimen>
+    <dimen name="icp_8">8dp</dimen>
     <dimen name="icp_10">10dp</dimen>
     <dimen name="icp_16">16dp</dimen>
     <dimen name="icp_24">24dp</dimen>

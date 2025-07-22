@@ -2,11 +2,15 @@ package rs.example.playlistmaker
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import retrofit2.Call
 import rs.example.playlistmaker.adapter.TracksAdapter
@@ -16,6 +20,8 @@ import rs.example.playlistmaker.network.SearchTrackInstance
 import retrofit2.Callback
 import retrofit2.Response
 import rs.example.playlistmaker.network.TunesResponse
+import rs.example.playlistmaker.api.TrackHistory
+import rs.example.playlistmaker.network.StatusResponse
 
 class SearchActivity : AppCompatActivity() {
 
@@ -23,9 +29,28 @@ class SearchActivity : AppCompatActivity() {
         ActivitySearchBinding.inflate(layoutInflater)
     }
 
+    private val trackHistory by lazy {
+        TrackHistory(
+            getSharedPreferences(
+                AppConstant.SHARED_PREF_ID, MODE_PRIVATE
+            )
+        )
+    }
+    private val tracks: MutableList<Track> = mutableListOf()
+    private val adapter = TracksAdapter(tracks) {
+        trackHistory.setTrack(it)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.search_activity))
+        { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(top=systemBars.top, bottom = systemBars.bottom)
+            insets
+        }
 
         binding.apply {
 
@@ -40,99 +65,131 @@ class SearchActivity : AppCompatActivity() {
             }
 
             iwClear.setOnClickListener {
-                etSearch.text.clear(); rcvSearch.visibility = View.GONE; hideKeyboard()
+                etSearch.text.clear(); tracks.clear(); onShowResult(StatusResponse.SUCCESS)
+                adapter.notifyDataSetChanged(); hideKeyboard()
             }
 
-            etSearch.apply {
+            rcvSearch.adapter = adapter
 
+            etSearch.apply {
                 doAfterTextChanged { s ->
                     iwClear.isVisible = !s.isNullOrEmpty()
+                    if (etSearch.hasFocus() && s?.isEmpty() == true) {
+                        if (!trackHistory.readTracks().isEmpty()) {
+                            rcvSearch.isVisible = false
+                            llHistory.isVisible = true
+                        }
+                    } else {
+                        llHistory.isVisible = false
+                    }
+                    rcvHistory.adapter = TracksAdapter(trackHistory.readTracks()) {}
                 }
-                setOnEditorActionListener { sender, actionId, _ ->
+                setOnEditorActionListener { view, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        onRequest(sender.text.trim().toString())
+                        onRequest(view.text.trim().toString())
                         true
                     }
                     false
                 }
-
+                setOnFocusChangeListener { view, hasFocus ->
+                    llHistory.isVisible =
+                        hasFocus && (view as EditText).text.isEmpty() && !trackHistory.readTracks()
+                            .isEmpty()
+                    rcvHistory.adapter = TracksAdapter(trackHistory.readTracks()) {}
+                }
             }
 
             bRefreshNetwork.setOnClickListener {
-                llNwNotFound.visibility = View.GONE
+                llNwNotFound.isVisible = false
                 onRequest(etSearch.text.trim().toString())
 
+            }
+
+            bClearHistory.setOnClickListener {
+                trackHistory.clearTracks(); llHistory.isVisible = false
             }
         }
 
     }
 
     private fun hideKeyboard() {
-        val view: View? = this.currentFocus
-        val iMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        iMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+        this.currentFocus?.let { view ->
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 
     private fun onRequest(paramSearch: String) {
-        onShowLoading()
+        onShowResult(StatusResponse.PROGRESS)
         SearchTrackInstance.getService()
             .search(text = paramSearch)
             .enqueue(object : Callback<TunesResponse> {
                 override fun onResponse(
-                    call: Call<TunesResponse>,
-                    response: Response<TunesResponse>
+                    call: Call<TunesResponse>, response: Response<TunesResponse>
                 ) {
                     when (response.code()) {
                         200 -> {
-                            val listTrack =
-                                buildList<Track> { addAll(response.body()?.results!!) }
-                            if (listTrack.isNotEmpty()) {
-                                onShowResult(listTrack)
-                            } else {
-                                onShowEmpty()
+                            tracks.apply {
+                                clear(); addAll(response.body()?.results!!)
                             }
-                        } else -> { onShowError() }
-                    }
+                            adapter.notifyDataSetChanged()
+                            if (tracks.isNotEmpty()) {
+                                onShowResult(StatusResponse.SUCCESS)
+                            } else {
+                                onShowResult(StatusResponse.EMPTY)
+                            }
+                        }
 
+                        else -> {
+                            onShowResult(StatusResponse.ERROR); Log.d(
+                                AppConstant.LOG_APP_KEY,
+                                "Code: ${response.code()}, " +
+                                        "Body: ${response.body()?.toString()}"
+                            )
+                        }
+                    }
                 }
 
                 override fun onFailure(
                     call: Call<TunesResponse>,
                     t: Throwable
                 ) {
-                    onShowError()
-                    Log.d("RS", t.message.toString())
+                    onShowResult(StatusResponse.ERROR); Log.d(
+                        AppConstant.LOG_APP_KEY, "Error: ${t.message.toString()}"
+                    )
                 }
             }
             )
     }
 
-    private fun onShowLoading() {
-        binding.rcvSearch.visibility = View.GONE
-        binding.llNwNotFound.visibility = View.GONE
-        binding.llTrackNotFound.visibility = View.GONE
-    }
+    private fun onShowResult(statusResponse: StatusResponse) = with(binding) {
+        when (statusResponse) {
+            StatusResponse.SUCCESS -> {
+                rcvSearch.isVisible = true
+                llNwNotFound.isVisible = false
+                llTrackNotFound.isVisible = false
+            }
 
-    private fun onShowEmpty() {
-        binding.rcvSearch.visibility = View.GONE
-        binding.llNwNotFound.visibility = View.GONE
-        binding.llTrackNotFound.visibility = View.VISIBLE
-        binding.twTrNotFound.text = getString(R.string.c_nothing_not_found)
-    }
+            StatusResponse.EMPTY -> {
+                rcvSearch.isVisible = false
+                llNwNotFound.isVisible = false
+                llTrackNotFound.isVisible = true
+                twTrNotFound.text = getString(R.string.c_nothing_not_found)
+            }
 
-    private fun onShowError() {
-        binding.rcvSearch.visibility = View.GONE
-        binding.llNwNotFound.visibility = View.VISIBLE
-        binding.llTrackNotFound.visibility = View.GONE
-        binding.twErrorNetwork.text = getString(R.string.c_not_internet)
-    }
+            StatusResponse.ERROR -> {
+                rcvSearch.isVisible = false
+                llNwNotFound.isVisible = true
+                llTrackNotFound.isVisible = false
+                twErrorNetwork.text = getString(R.string.c_not_internet)
+            }
 
-    private fun onShowResult(track: List<Track>) {
-        binding.rcvSearch.adapter = TracksAdapter(track)
-        binding.rcvSearch.visibility = View.VISIBLE
-        binding.llNwNotFound.visibility = View.GONE
-        binding.llTrackNotFound.visibility = View.GONE
-
+            StatusResponse.PROGRESS -> {
+                rcvSearch.isVisible = false
+                llNwNotFound.isVisible = false
+                llTrackNotFound.isVisible = false
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

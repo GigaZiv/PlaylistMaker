@@ -16,9 +16,11 @@
     <string name="с_urlOfPracticum">https://practicum.yandex.ru/android-developer/</string>
     <string name="с_myEmail">i@iberholz.ru</string>
     <string name="с_search">Поиск</string>
+    <string name="с_search_history">Вы искали</string>
     <string name="c_search_clear">Очистить поисковый запрос</string>
     <string name="с_separate">Разделитель</string>
     <string name="c_refresh">Обновить</string>
     <string name="c_nothing_not_found">Ничего не нашлось</string>
     <string name="c_not_internet">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="c_history_clear">Очистить историю</string>
 </resources>
