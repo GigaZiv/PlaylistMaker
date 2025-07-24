@@ -45,7 +45,7 @@ class TracksAdapter(
         fun bind(trackItem: Track) = with(bindingHolderItem) {
             twNameSong.text = trackItem.trackName
             twNameGroup.text = trackItem.artistName
-            twDuration.text = getSimpleDateFormat(trackItem.trackTimeMillis.toInt())
+            twDuration.text = getSimpleDateFormat(trackItem.trackTimeMillis)
             Glide.with(itemView)
                 .load(trackItem.artworkUrl100)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)

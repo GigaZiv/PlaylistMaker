@@ -5,7 +5,7 @@ import java.util.Locale
 
 object StaffFunctions {
 
-    fun getSimpleDateFormat(i: Int): String {
+    fun getSimpleDateFormat(i: Long): String {
         return SimpleDateFormat(
             "mm:ss",
             Locale.getDefault()

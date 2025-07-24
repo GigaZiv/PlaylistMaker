@@ -1,5 +1,6 @@
 package rs.example.playlistmaker
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
@@ -19,9 +20,11 @@ import rs.example.playlistmaker.models.Track
 import rs.example.playlistmaker.network.SearchTrackInstance
 import retrofit2.Callback
 import retrofit2.Response
+import rs.example.playlistmaker.AppConstant.Companion.ID_SEARCH_QUERY
 import rs.example.playlistmaker.network.TunesResponse
 import rs.example.playlistmaker.api.TrackHistory
 import rs.example.playlistmaker.network.StatusResponse
+import rs.example.playlistmaker.player.AudioPlayer
 
 class SearchActivity : AppCompatActivity() {
 
@@ -39,6 +42,7 @@ class SearchActivity : AppCompatActivity() {
     private val tracks: MutableList<Track> = mutableListOf()
     private val adapter = TracksAdapter(tracks) {
         trackHistory.setTrack(it)
+        openPlayer(it)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +86,10 @@ class SearchActivity : AppCompatActivity() {
                     } else {
                         llHistory.isVisible = false
                     }
-                    rcvHistory.adapter = TracksAdapter(trackHistory.readTracks()) {}
+                    rcvHistory.adapter = TracksAdapter(trackHistory.readTracks()) {
+                        trackHistory.setTrack(it)
+                        openPlayer(it)
+                    }
                 }
                 setOnEditorActionListener { view, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -95,7 +102,10 @@ class SearchActivity : AppCompatActivity() {
                     llHistory.isVisible =
                         hasFocus && (view as EditText).text.isEmpty() && !trackHistory.readTracks()
                             .isEmpty()
-                    rcvHistory.adapter = TracksAdapter(trackHistory.readTracks()) {}
+                    rcvHistory.adapter = TracksAdapter(trackHistory.readTracks()) {
+                        trackHistory.setTrack(it)
+                        openPlayer(it)
+                    }
                 }
             }
 
@@ -110,6 +120,16 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun openPlayer(track: Track) {
+        startActivity(
+            Intent(
+                this@SearchActivity,
+                AudioPlayer::class.java
+            ).apply {
+                putExtra("trackId", track.trackId)
+            })
     }
 
     private fun hideKeyboard() {
@@ -195,11 +215,6 @@ class SearchActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(ID_SEARCH_QUERY, binding.etSearch.text.toString())
-    }
-
-    /* Идентификатор */
-    companion object {
-        private const val ID_SEARCH_QUERY = "ID_SEARCH_QUERY"
     }
 
 }
