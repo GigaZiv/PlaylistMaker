@@ -23,4 +23,12 @@
     <string name="c_nothing_not_found">Ничего не нашлось</string>
     <string name="c_not_internet">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
     <string name="c_history_clear">Очистить историю</string>
+    <string name="c_artist">Артист</string>
+    <string name="c_track_title">Заголовок</string>
+    <string name="c_track_time">00:00</string>
+    <string name="c_duration">Длительность</string>
+    <string name="c_album">Альбом</string>
+    <string name="c_year">Год</string>
+    <string name="c_style">Жанр</string>
+    <string name="c_country">Страна</string>
 </resources>
