@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/audio_player"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".player.AudioPlayer">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glLeftBorder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/i_p_16" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glRightBorder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/i_p_16" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/bText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_tags="durationTag, styleNameTag, countryNameTag, yearTag, albumNameTag" />
+
+    <ImageView
+        android:id="@+id/iwBack"
+        style="@style/s_tool_bar_nav_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/i_p_16"
+        android:contentDescription="@string/с_app_name"
+        android:src="@drawable/arrow_back"
+        app:layout_constraintStart_toStartOf="@id/glLeftBorder"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivTrackImageLarge"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/i_p_16"
+        android:layout_marginTop="@dimen/i_p_42"
+        android:layout_marginEnd="@dimen/i_p_16"
+        android:contentDescription="@string/с_app_name"
+        android:scaleType="centerCrop"
+        app:cornerRadius="@dimen/i_p_8"
+        app:layout_constraintBottom_toTopOf="@id/twTitleValue"
+        app:layout_constraintDimensionRatio="h,1:1"
+        app:layout_constraintEnd_toStartOf="@id/glRightBorder"
+        app:layout_constraintStart_toStartOf="@id/glLeftBorder"
+        app:layout_constraintTop_toBottomOf="@id/iwBack"
+        app:srcCompat="@drawable/ic_track_default" />
+
+
+    <TextView
+        android:id="@+id/twTitleValue"
+        style="@style/s_tool_bar_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/i_p_24"
+        android:layout_marginHorizontal="@dimen/i_p_8"
+        android:text="@string/c_track_title"
+        app:layout_constraintStart_toStartOf="@id/glLeftBorder"
+        app:layout_constraintTop_toBottomOf="@id/ivTrackImageLarge" />
+
+    <TextView
+        android:id="@+id/twArtistValue"
+        style="@style/s_tool_bar_text_art"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/i_p_12"
+        android:layout_marginHorizontal="@dimen/i_p_8"
+        android:text="@string/c_artist"
+        app:layout_constraintStart_toStartOf="@id/glLeftBorder"
+        app:layout_constraintTop_toBottomOf="@id/twTitleValue" />
+
+
+    <ImageButton
+        android:id="@+id/ibAddTrackMedia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/icp_24"
+        android:background="@null"
+        android:contentDescription="@string/с_app_name"
+        android:src="@drawable/ic_add_button"
+
+        app:layout_constraintBottom_toBottomOf="@+id/ibPlay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ibPlay" />
+
+    <ImageButton
+        android:id="@+id/ibPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/i_p_38"
+        android:background="@null"
+        android:contentDescription="@string/с_app_name"
+        android:src="@drawable/ic_play_button"
+        app:layout_constraintBottom_toTopOf="@id/twProgressTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/twArtistValue" />
+
+    <ImageButton
+        android:id="@+id/ibAddFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/icp_24"
+        android:background="@null"
+        android:contentDescription="@string/с_app_name"
+        android:src="@drawable/ic_favorite_off"
+        app:layout_constraintBottom_toBottomOf="@+id/ibAddTrackMedia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ibAddTrackMedia" />
+
+    <TextView
+        android:id="@+id/twProgressTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/i_p_12"
+        android:text="@string/c_track_time"
+        app:layout_constraintBottom_toTopOf="@id/iwDurationCaption"
+        app:layout_constraintEnd_toEndOf="@id/ibPlay"
+        app:layout_constraintStart_toStartOf="@id/ibPlay"
+        app:layout_constraintTop_toBottomOf="@id/ibPlay" />
+
+
+    <TextView
+        android:id="@+id/iwDurationCaption"
+        style="@style/s_tool_bar_text_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/i_p_30"
+        android:layout_marginBottom="@dimen/i_p_16"
+        android:text="@string/c_duration"
+        app:layout_constraintBottom_toTopOf="@+id/iwAlbumCaption"
+        app:layout_constraintStart_toStartOf="@id/glLeftBorder"
+        app:layout_constraintTag="durationTag"
+        app:layout_constraintTop_toBottomOf="@id/twProgressTime" />
+
+    <TextView
+        android:id="@+id/iwAlbumCaption"
+        style="@style/s_tool_bar_text_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/i_p_16"
+        android:text="@string/c_album"
+        app:layout_constraintBottom_toTopOf="@+id/iwYearCaption"
+        app:layout_constraintStart_toStartOf="@id/glLeftBorder"
+        app:layout_constraintTag="albumNameTag"
+        app:layout_constraintTop_toBottomOf="@id/iwDurationCaption" />
+
+
+    <TextView
+        android:id="@+id/iwYearCaption"
+        style="@style/s_tool_bar_text_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/i_p_16"
+        android:text="@string/c_year"
+        app:layout_constraintBottom_toTopOf="@+id/iwGenresCaption"
+        app:layout_constraintStart_toStartOf="@id/glLeftBorder"
+        app:layout_constraintTag="yearTag"
+        app:layout_constraintTop_toBottomOf="@id/iwAlbumCaption" />
+
+    <TextView
+        android:id="@+id/iwGenresCaption"
+        style="@style/s_tool_bar_text_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/i_p_16"
+        android:text="@string/c_style"
+        app:layout_constraintBottom_toTopOf="@+id/iwCountryCaption"
+        app:layout_constraintStart_toStartOf="@id/glLeftBorder"
+        app:layout_constraintTag="styleNameTag"
+        app:layout_constraintTop_toBottomOf="@id/iwYearCaption" />
+
+    <TextView
+        android:id="@+id/iwCountryCaption"
+        style="@style/s_tool_bar_text_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/i_p_20"
+        android:text="@string/c_country"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/glLeftBorder"
+        app:layout_constraintTag="countryNameTag"
+        app:layout_constraintTop_toBottomOf="@id/iwGenresCaption" />
+
+    <TextView
+        android:id="@+id/iwTrackTimeMillisValue"
+        style="@style/s_tool_bar_text_attr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="@string/c_track_time"
+        app:layout_constraintBaseline_toBaselineOf="@id/iwDurationCaption"
+        app:layout_constraintEnd_toEndOf="@id/glRightBorder"
+        app:layout_constraintStart_toEndOf="@id/bText" />
+
+    <TextView
+        android:id="@+id/iwCollectionNameValue"
+        style="@style/s_tool_bar_text_attr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="@string/c_album"
+        app:layout_constraintBaseline_toBaselineOf="@id/iwAlbumCaption"
+        app:layout_constraintEnd_toEndOf="@id/glRightBorder"
+        app:layout_constraintStart_toEndOf="@id/bText" />
+
+    <TextView
+        android:id="@+id/iwReleaseDateValue"
+        style="@style/s_tool_bar_text_attr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="@string/c_year"
+        app:layout_constraintBaseline_toBaselineOf="@id/iwYearCaption"
+        app:layout_constraintEnd_toEndOf="@id/glRightBorder"
+        app:layout_constraintStart_toEndOf="@id/bText" />
+
+    <TextView
+        android:id="@+id/iwGenresValue"
+        style="@style/s_tool_bar_text_attr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="@string/c_style"
+        app:layout_constraintBaseline_toBaselineOf="@id/iwGenresCaption"
+        app:layout_constraintEnd_toEndOf="@id/glRightBorder"
+        app:layout_constraintStart_toEndOf="@id/bText" />
+
+    <TextView
+        android:id="@+id/iwCountryNameValue"
+        style="@style/s_tool_bar_text_attr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="@string/c_country"
+        app:layout_constraintBaseline_toBaselineOf="@id/iwCountryCaption"
+        app:layout_constraintEnd_toEndOf="@id/glRightBorder"
+        app:layout_constraintStart_toEndOf="@id/bText" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

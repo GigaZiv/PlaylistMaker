@@ -2,8 +2,13 @@
 <resources>
     <dimen name="i_p_8">8dp</dimen>
     <dimen name="i_p_10">10dp</dimen>
+    <dimen name="i_p_12">12dp</dimen>
     <dimen name="i_p_16">16dp</dimen>
     <dimen name="i_p_20">20dp</dimen>
+    <dimen name="i_p_24">24dp</dimen>
+    <dimen name="i_p_30">30dp</dimen>
+    <dimen name="i_p_38">38dp</dimen>
+    <dimen name="i_p_42">42dp</dimen>
     <dimen name="fs_text_11">11sp</dimen>
     <dimen name="fs_text_12">12sp</dimen>
     <dimen name="fs_text_16">16sp</dimen>
