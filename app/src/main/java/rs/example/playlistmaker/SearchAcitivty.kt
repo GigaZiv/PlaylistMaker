@@ -2,8 +2,9 @@ package rs.example.playlistmaker
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
@@ -21,13 +22,18 @@ import rs.example.playlistmaker.network.SearchTrackInstance
 import retrofit2.Callback
 import retrofit2.Response
 import rs.example.playlistmaker.AppConstant.Companion.ID_SEARCH_QUERY
+import rs.example.playlistmaker.AppConstant.Companion.SEARCH_DEBOUNCE_DELAY
+import rs.example.playlistmaker.AppConstant.Companion.CLICK_DEBOUNCE_DELAY
 import rs.example.playlistmaker.network.TunesResponse
 import rs.example.playlistmaker.api.TrackHistory
 import rs.example.playlistmaker.network.StatusResponse
 import rs.example.playlistmaker.player.AudioPlayer
 
 class SearchActivity : AppCompatActivity() {
-
+    private var isClickAllowed = true
+    private val threadHandler by lazy {
+        Handler(Looper.getMainLooper())
+    }
     private val binding: ActivitySearchBinding by lazy {
         ActivitySearchBinding.inflate(layoutInflater)
     }
@@ -41,18 +47,19 @@ class SearchActivity : AppCompatActivity() {
     }
     private val tracks: MutableList<Track> = mutableListOf()
     private val adapter = TracksAdapter(tracks) {
-        trackHistory.setTrack(it)
-        openPlayer(it)
+        if (clickDebounce()) {
+            trackHistory.setTrack(it)
+            openPlayer(it)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.search_activity))
-        { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.search_activity)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(top=systemBars.top, bottom = systemBars.bottom)
+            v.updatePadding(top = systemBars.top, bottom = systemBars.bottom)
             insets
         }
 
@@ -76,28 +83,33 @@ class SearchActivity : AppCompatActivity() {
             rcvSearch.adapter = adapter
 
             etSearch.apply {
+
+                val runnableSearch = Runnable {
+                    onRequest(this.text.trim().toString())
+                }
+
                 doAfterTextChanged { s ->
                     iwClear.isVisible = !s.isNullOrEmpty()
-                    if (etSearch.hasFocus() && s?.isEmpty() == true) {
+                    threadHandler.removeCallbacks(runnableSearch)
+                    if (this.hasFocus() && s?.isEmpty() == true) {
                         if (!trackHistory.readTracks().isEmpty()) {
+                            llTrackNotFound.isVisible = false
                             rcvSearch.isVisible = false
                             llHistory.isVisible = true
                         }
                     } else {
                         llHistory.isVisible = false
+                        threadHandler.apply {
+                            removeCallbacks(runnableSearch)
+                            postDelayed(runnableSearch, SEARCH_DEBOUNCE_DELAY)
+                        }
                     }
                     rcvHistory.adapter = TracksAdapter(trackHistory.readTracks()) {
                         trackHistory.setTrack(it)
                         openPlayer(it)
                     }
                 }
-                setOnEditorActionListener { view, actionId, _ ->
-                    if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        onRequest(view.text.trim().toString())
-                        true
-                    }
-                    false
-                }
+
                 setOnFocusChangeListener { view, hasFocus ->
                     llHistory.isVisible =
                         hasFocus && (view as EditText).text.isEmpty() && !trackHistory.readTracks()
@@ -122,11 +134,19 @@ class SearchActivity : AppCompatActivity() {
 
     }
 
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            threadHandler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
+    }
+
     private fun openPlayer(track: Track) {
         startActivity(
             Intent(
-                this@SearchActivity,
-                AudioPlayer::class.java
+                this@SearchActivity, AudioPlayer::class.java
             ).apply {
                 putExtra("trackId", track.trackId)
             })
@@ -141,8 +161,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun onRequest(paramSearch: String) {
         onShowResult(StatusResponse.PROGRESS)
-        SearchTrackInstance.getService()
-            .search(text = paramSearch)
+        SearchTrackInstance.getService().search(text = paramSearch)
             .enqueue(object : Callback<TunesResponse> {
                 override fun onResponse(
                     call: Call<TunesResponse>, response: Response<TunesResponse>
@@ -163,23 +182,22 @@ class SearchActivity : AppCompatActivity() {
                         else -> {
                             onShowResult(StatusResponse.ERROR); Log.d(
                                 AppConstant.LOG_APP_KEY,
-                                "Code: ${response.code()}, " +
-                                        "Body: ${response.body()?.toString()}"
+                                "Code: ${response.code()}, " + "Body: ${
+                                    response.body()?.toString()
+                                }"
                             )
                         }
                     }
                 }
 
                 override fun onFailure(
-                    call: Call<TunesResponse>,
-                    t: Throwable
+                    call: Call<TunesResponse>, t: Throwable
                 ) {
                     onShowResult(StatusResponse.ERROR); Log.d(
                         AppConstant.LOG_APP_KEY, "Error: ${t.message.toString()}"
                     )
                 }
-            }
-            )
+            })
     }
 
     private fun onShowResult(statusResponse: StatusResponse) = with(binding) {
@@ -188,9 +206,11 @@ class SearchActivity : AppCompatActivity() {
                 rcvSearch.isVisible = true
                 llNwNotFound.isVisible = false
                 llTrackNotFound.isVisible = false
+                pbProgress.isVisible = false
             }
 
             StatusResponse.EMPTY -> {
+                pbProgress.isVisible = false
                 rcvSearch.isVisible = false
                 llNwNotFound.isVisible = false
                 llTrackNotFound.isVisible = true
@@ -198,6 +218,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
             StatusResponse.ERROR -> {
+                pbProgress.isVisible = false
                 rcvSearch.isVisible = false
                 llNwNotFound.isVisible = true
                 llTrackNotFound.isVisible = false
@@ -205,6 +226,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
             StatusResponse.PROGRESS -> {
+                pbProgress.isVisible = true
                 rcvSearch.isVisible = false
                 llNwNotFound.isVisible = false
                 llTrackNotFound.isVisible = false

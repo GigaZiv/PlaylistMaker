@@ -12,7 +12,7 @@ import rs.example.playlistmaker.R
 import rs.example.playlistmaker.adapter.TracksAdapter.TrackHolder
 import rs.example.playlistmaker.databinding.RwSearchItemBinding
 import rs.example.playlistmaker.models.Track
-import rs.example.playlistmaker.utils.StaffFunctions.getSimpleDateFormat
+import rs.example.playlistmaker.utils.StaffFunctions.getSimpleDateFormatLong
 
 class TracksAdapter(
     private val itemTracks: List<Track>,
@@ -45,7 +45,7 @@ class TracksAdapter(
         fun bind(trackItem: Track) = with(bindingHolderItem) {
             twNameSong.text = trackItem.trackName
             twNameGroup.text = trackItem.artistName
-            twDuration.text = getSimpleDateFormat(trackItem.trackTimeMillis)
+            twDuration.text = getSimpleDateFormatLong(trackItem.trackTimeMillis)
             Glide.with(itemView)
                 .load(trackItem.artworkUrl100)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
