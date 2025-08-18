@@ -13,7 +13,7 @@
         android:theme="@style/s_tool_bar_nav_icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
+        android:minHeight="?android:attr/actionBarSize"
         app:title="@string/с_search"
         app:navigationIcon="@drawable/arrow_back"
         app:titleTextAppearance="@style/s_tool_bar_text" />

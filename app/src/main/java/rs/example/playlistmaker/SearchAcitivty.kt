@@ -93,14 +93,12 @@ class SearchActivity : AppCompatActivity() {
                     threadHandler.removeCallbacks(runnableSearch)
                     if (this.hasFocus() && s?.isEmpty() == true) {
                         if (!trackHistory.readTracks().isEmpty()) {
-                            llTrackNotFound.isVisible = false
                             rcvSearch.isVisible = false
                             llHistory.isVisible = true
                         }
                     } else {
                         llHistory.isVisible = false
                         threadHandler.apply {
-                            removeCallbacks(runnableSearch)
                             postDelayed(runnableSearch, SEARCH_DEBOUNCE_DELAY)
                         }
                     }
