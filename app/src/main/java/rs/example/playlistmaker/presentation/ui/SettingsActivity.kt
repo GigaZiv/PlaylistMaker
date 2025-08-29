@@ -1,4 +1,4 @@
-package rs.example.playlistmaker.settings.ui
+package rs.example.playlistmaker.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle

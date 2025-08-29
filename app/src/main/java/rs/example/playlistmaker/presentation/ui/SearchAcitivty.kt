@@ -1,10 +1,9 @@
-package rs.example.playlistmaker
+package rs.example.playlistmaker.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
@@ -14,20 +13,16 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
-import retrofit2.Call
-import rs.example.playlistmaker.adapter.TracksAdapter
 import rs.example.playlistmaker.databinding.ActivitySearchBinding
-import rs.example.playlistmaker.models.Track
-import rs.example.playlistmaker.network.SearchTrackInstance
-import retrofit2.Callback
-import retrofit2.Response
+import rs.example.playlistmaker.domain.models.Track
+import rs.example.playlistmaker.AppConstant
 import rs.example.playlistmaker.AppConstant.Companion.ID_SEARCH_QUERY
 import rs.example.playlistmaker.AppConstant.Companion.SEARCH_DEBOUNCE_DELAY
 import rs.example.playlistmaker.AppConstant.Companion.CLICK_DEBOUNCE_DELAY
-import rs.example.playlistmaker.network.TunesResponse
-import rs.example.playlistmaker.api.TrackHistory
-import rs.example.playlistmaker.network.StatusResponse
-import rs.example.playlistmaker.player.AudioPlayer
+import rs.example.playlistmaker.R
+import rs.example.playlistmaker.creator.Creator
+import rs.example.playlistmaker.data.network.StatusResponse
+import rs.example.playlistmaker.presentation.adapter.TracksAdapter
 
 class SearchActivity : AppCompatActivity() {
     private var isClickAllowed = true
@@ -38,17 +33,20 @@ class SearchActivity : AppCompatActivity() {
         ActivitySearchBinding.inflate(layoutInflater)
     }
 
-    private val trackHistory by lazy {
-        TrackHistory(
+    private val getProvideTrackInteractor by lazy {
+        Creator.provideTrackInteractor()
+    }
+    private val trackStorePreferences by lazy {
+        Creator.getTrackStorePreferences(
             getSharedPreferences(
-                AppConstant.SHARED_PREF_ID, MODE_PRIVATE
+                AppConstant.Companion.SHARED_PREF_ID, MODE_PRIVATE
             )
         )
     }
     private val tracks: MutableList<Track> = mutableListOf()
     private val adapter = TracksAdapter(tracks) {
         if (clickDebounce()) {
-            trackHistory.setTrack(it)
+            trackStorePreferences.setTrack(it)
             openPlayer(it)
         }
     }
@@ -92,7 +90,7 @@ class SearchActivity : AppCompatActivity() {
                     iwClear.isVisible = !s.isNullOrEmpty()
                     threadHandler.removeCallbacks(runnableSearch)
                     if (this.hasFocus() && s?.isEmpty() == true) {
-                        if (!trackHistory.readTracks().isEmpty()) {
+                        if (!trackStorePreferences.readTracks().isEmpty()) {
                             rcvSearch.isVisible = false
                             llHistory.isVisible = true
                         }
@@ -102,18 +100,18 @@ class SearchActivity : AppCompatActivity() {
                             postDelayed(runnableSearch, SEARCH_DEBOUNCE_DELAY)
                         }
                     }
-                    rcvHistory.adapter = TracksAdapter(trackHistory.readTracks()) {
-                        trackHistory.setTrack(it)
+                    rcvHistory.adapter = TracksAdapter(trackStorePreferences.readTracks()) {
+                        trackStorePreferences.setTrack(it)
                         openPlayer(it)
                     }
                 }
 
                 setOnFocusChangeListener { view, hasFocus ->
                     llHistory.isVisible =
-                        hasFocus && (view as EditText).text.isEmpty() && !trackHistory.readTracks()
+                        hasFocus && (view as EditText).text.isEmpty() && !trackStorePreferences.readTracks()
                             .isEmpty()
-                    rcvHistory.adapter = TracksAdapter(trackHistory.readTracks()) {
-                        trackHistory.setTrack(it)
+                    rcvHistory.adapter = TracksAdapter(trackStorePreferences.readTracks()) {
+                        trackStorePreferences.setTrack(it)
                         openPlayer(it)
                     }
                 }
@@ -126,7 +124,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
             bClearHistory.setOnClickListener {
-                trackHistory.clearTracks(); llHistory.isVisible = false
+                trackStorePreferences.clearTracks(); llHistory.isVisible = false
             }
         }
 
@@ -159,43 +157,27 @@ class SearchActivity : AppCompatActivity() {
 
     private fun onRequest(paramSearch: String) {
         onShowResult(StatusResponse.PROGRESS)
-        SearchTrackInstance.getService().search(text = paramSearch)
-            .enqueue(object : Callback<TunesResponse> {
-                override fun onResponse(
-                    call: Call<TunesResponse>, response: Response<TunesResponse>
-                ) {
-                    when (response.code()) {
-                        200 -> {
-                            tracks.apply {
-                                clear(); addAll(response.body()?.results!!)
-                            }
-                            adapter.notifyDataSetChanged()
-                            if (tracks.isNotEmpty()) {
-                                onShowResult(StatusResponse.SUCCESS)
-                            } else {
-                                onShowResult(StatusResponse.EMPTY)
-                            }
-                        }
+        getProvideTrackInteractor.searchTracks(paramSearch, {
+            threadHandler.post {
+                if (it.isNotEmpty()) {
+                    tracks.apply {
+                        clear(); addAll(it)
+                    }
 
-                        else -> {
-                            onShowResult(StatusResponse.ERROR); Log.d(
-                                AppConstant.LOG_APP_KEY,
-                                "Code: ${response.code()}, " + "Body: ${
-                                    response.body()?.toString()
-                                }"
-                            )
-                        }
+                    adapter.notifyDataSetChanged()
+
+                    if (tracks.isNotEmpty()) {
+                        onShowResult(StatusResponse.SUCCESS)
+                    } else {
+                        onShowResult(StatusResponse.EMPTY)
                     }
                 }
-
-                override fun onFailure(
-                    call: Call<TunesResponse>, t: Throwable
-                ) {
-                    onShowResult(StatusResponse.ERROR); Log.d(
-                        AppConstant.LOG_APP_KEY, "Error: ${t.message.toString()}"
-                    )
-                }
-            })
+            }
+        }, {
+            threadHandler.post {
+                onShowResult(StatusResponse.ERROR)
+            }
+        })
     }
 
     private fun onShowResult(statusResponse: StatusResponse) = with(binding) {
