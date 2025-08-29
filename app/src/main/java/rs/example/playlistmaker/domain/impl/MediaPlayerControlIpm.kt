@@ -1,7 +1,6 @@
 package rs.example.playlistmaker.domain.impl
 
 import android.media.MediaPlayer
-import android.util.Log
 import rs.example.playlistmaker.AppConstant.Companion.DELAY
 import rs.example.playlistmaker.domain.api.MediaPlayerControlInterface
 import rs.example.playlistmaker.domain.models.Track
@@ -23,7 +22,6 @@ class MediaPlayerControlIpm(val mediaInterface: MediaPlayerControlInterface) {
                 prepareAsync()
             }
             setOnPreparedListener {
-                Log.i("MediaPlayerControlIpm", "setOnPreparedListener")
                 mediaInterface.apply {
                     prepareCallback()
                     statePlayButton(true)
@@ -31,7 +29,6 @@ class MediaPlayerControlIpm(val mediaInterface: MediaPlayerControlInterface) {
                 playerState = STATE_PREPARED
             }
             setOnCompletionListener {
-                Log.i("MediaPlayerControlIpm", "setOnCompletionListener")
                 mediaInterface.completeCallback()
                 playerState = STATE_PREPARED
             }

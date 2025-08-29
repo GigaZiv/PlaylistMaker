@@ -1,6 +1,5 @@
 package rs.example.playlistmaker.domain.api
 
-import rs.example.playlistmaker.data.dto.CustomException
 import rs.example.playlistmaker.domain.models.Track
 
 interface TracksInteractor {
@@ -11,7 +10,7 @@ interface TracksInteractor {
     }
 
     fun interface ErrorHandler {
-        fun handle(error: CustomException)
+        fun handle(error: Exception)
 
     }
 

@@ -1,6 +1,5 @@
 package rs.example.playlistmaker.data
 
-import rs.example.playlistmaker.data.dto.CustomException
 import rs.example.playlistmaker.data.dto.TunesRequest
 import rs.example.playlistmaker.data.dto.TunesResponse
 import rs.example.playlistmaker.data.network.RetrofitNetworkClient
@@ -12,7 +11,7 @@ class TracksRepositoryImpl(private val networkClient: RetrofitNetworkClient) : T
         val response = try {
             networkClient.doRequest(TunesRequest(expression))
         } catch (e: Exception) {
-            throw CustomException(e.message)
+            throw Exception(e)
         }
         if (response.resultCode == 200) {
             return (response as TunesResponse).results.map {

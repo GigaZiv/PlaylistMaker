@@ -1,6 +1,5 @@
 package rs.example.playlistmaker.domain.impl
 
-import rs.example.playlistmaker.data.dto.CustomException
 import rs.example.playlistmaker.domain.api.TracksInteractor
 import rs.example.playlistmaker.domain.api.TracksRepository
 import java.util.concurrent.Executors
@@ -16,7 +15,7 @@ class TracksInteractorImp(private val repository: TracksRepository) : TracksInte
         executor.execute {
             val result = try {
                 repository.searchTracks(expression)
-            } catch (e: CustomException) {
+            } catch (e: Exception) {
                 errorHandler.handle(e)
                 return@execute
             }
