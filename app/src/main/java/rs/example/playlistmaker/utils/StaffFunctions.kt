@@ -5,11 +5,17 @@ import java.util.Locale
 
 object StaffFunctions {
 
-    fun getSimpleDateFormat(i: Long): String {
+    fun getSimpleDateFormatLong(i: Long): String {
         return SimpleDateFormat(
             "mm:ss",
             Locale.getDefault()
         ).format(i)
     }
 
+    fun getSimpleDateFormatInt(i: Int): String {
+        return SimpleDateFormat(
+            "mm:ss",
+            Locale.getDefault()
+        ).format(i)
+    }
 }

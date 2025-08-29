@@ -13,7 +13,7 @@
         android:theme="@style/s_tool_bar_nav_icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
+        android:minHeight="?android:attr/actionBarSize"
         app:title="@string/с_search"
         app:navigationIcon="@drawable/arrow_back"
         app:titleTextAppearance="@style/s_tool_bar_text" />
@@ -59,6 +59,14 @@
             android:visibility="gone" />
 
     </FrameLayout>
+
+    <ProgressBar android:id="@+id/pbProgress"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="148dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/c_progress_color"
+        android:visibility="gone"/>
 
     <FrameLayout
         android:layout_width="match_parent"
