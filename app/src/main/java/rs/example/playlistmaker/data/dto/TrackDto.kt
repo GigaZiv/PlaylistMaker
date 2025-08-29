@@ -1,7 +1,8 @@
-package rs.example.playlistmaker.models
+package rs.example.playlistmaker.data.dto
 
 import com.google.gson.annotations.SerializedName
-data class Track(
+
+data class TrackDto(
     @SerializedName("trackId")
     val trackId: String,
     @SerializedName("collectionName")
@@ -23,3 +24,4 @@ data class Track(
     @SerializedName("previewUrl")
     val previewUrl: String
 )
+

@@ -1,5 +1,6 @@
-package rs.example.playlistmaker.adapter
+package rs.example.playlistmaker.presentation.adapter
 
+import rs.example.playlistmaker.R
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,16 +9,15 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import rs.example.playlistmaker.R
-import rs.example.playlistmaker.adapter.TracksAdapter.TrackHolder
 import rs.example.playlistmaker.databinding.RwSearchItemBinding
-import rs.example.playlistmaker.models.Track
+import rs.example.playlistmaker.domain.models.Track
 import rs.example.playlistmaker.utils.StaffFunctions.getSimpleDateFormatLong
+
 
 class TracksAdapter(
     private val itemTracks: List<Track>,
     private val clickListener: (Track) -> Unit
-) : Adapter<TrackHolder>() {
+) : Adapter<TracksAdapter.TrackHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -56,4 +56,3 @@ class TracksAdapter(
         }
     }
 }
-

@@ -1,4 +1,4 @@
-package rs.example.playlistmaker
+package rs.example.playlistmaker.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,8 +8,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import rs.example.playlistmaker.R
 import rs.example.playlistmaker.databinding.ActivityMainBinding
-import rs.example.playlistmaker.settings.ui.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
 
