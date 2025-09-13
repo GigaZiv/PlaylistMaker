@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".settings.ui.SettingsActivity">
+    tools:context=".presentation.ui.SettingsActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tbSetting"
@@ -16,6 +16,8 @@
         android:layout_marginBottom="24dp"
         android:minHeight="?android:attr/actionBarSize"
         app:navigationIcon="@drawable/arrow_back"
+        app:contentInsetStartWithNavigation="0dp"
+        app:titleMarginStart="0dp"
         app:title="@string/c_tools"
         app:titleTextAppearance="@style/s_tool_bar_text" />
 
