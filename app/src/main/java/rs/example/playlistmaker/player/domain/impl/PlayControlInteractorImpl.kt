@@ -6,7 +6,7 @@ import rs.example.playlistmaker.player.util.PlayerState
 import rs.example.playlistmaker.utils.StaffFunctions.ZERO_TIME
 import rs.example.playlistmaker.utils.StaffFunctions.getSimpleDateFormatInt
 
-class PlayControlImpl(private val mediaPlayer: PlayerClient) :
+class PlayControlInteractorImpl(private val mediaPlayer: PlayerClient) :
     PlayControl {
     private var playerState = PlayerState.PREPARED
 

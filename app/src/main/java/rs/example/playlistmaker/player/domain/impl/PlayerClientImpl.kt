@@ -1,4 +1,4 @@
-package rs.example.playlistmaker.player.data.impl
+package rs.example.playlistmaker.player.domain.impl
 
 import android.media.MediaPlayer
 import rs.example.playlistmaker.player.domain.PlayerClient

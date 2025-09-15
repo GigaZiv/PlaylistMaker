@@ -3,7 +3,6 @@ package rs.example.playlistmaker.util
 import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import rs.example.playlistmaker.player.data.impl.PlayerClientImpl
 import rs.example.playlistmaker.sharing.domain.SharingInteractor
 import rs.example.playlistmaker.sharing.domain.SharingRepository
 import rs.example.playlistmaker.sharing.domain.impl.SharingInteractorImp
@@ -12,7 +11,8 @@ import rs.example.playlistmaker.search.data.network.RetrofitNetworkClient
 import rs.example.playlistmaker.search.domain.api.TracksInteractor
 import rs.example.playlistmaker.search.domain.api.TracksRepository
 import rs.example.playlistmaker.player.domain.PlayControl
-import rs.example.playlistmaker.player.domain.impl.PlayControlImpl
+import rs.example.playlistmaker.player.domain.impl.PlayControlInteractorImpl
+import rs.example.playlistmaker.player.domain.impl.PlayerClientImpl
 import rs.example.playlistmaker.search.data.TrackHistoryRepositoryImpl
 import rs.example.playlistmaker.search.data.local.LocalStorage
 import rs.example.playlistmaker.search.data.network.TracksRepositoryImpl
@@ -29,8 +29,9 @@ object Creator {
 
     }
 
+
     fun createPlayControl(): PlayControl {
-        return PlayControlImpl(PlayerClientImpl())
+        return PlayControlInteractorImpl(PlayerClientImpl())
     }
 
     private fun getTrackRepository(context: Context): TracksRepository {

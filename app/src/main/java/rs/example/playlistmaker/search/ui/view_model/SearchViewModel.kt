@@ -126,6 +126,7 @@ class SearchViewModel(
 
     companion object {
         private val SEARCH_REQUEST_TOKEN = Any()
+
         fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 SearchViewModel(this[APPLICATION_KEY] as Application)
