@@ -51,6 +51,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.ktx)
     implementation(libs.androidx.fragments.ktx)
     implementation(libs.androidx.viewmodel.ktx)
+
+    implementation(libs.koin.android)
+
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.splashscreen)
     implementation(libs.squareup.retrofit)

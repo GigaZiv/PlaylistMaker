@@ -13,5 +13,6 @@ class SettingsInteractorImpl(private val repository: SettingsRepository) :
 
     override fun updateThemeSetting(settings: ThemeSettings) {
         repository.updateThemeSetting(settings)
+        repository.switchTheme(settings)
     }
 }

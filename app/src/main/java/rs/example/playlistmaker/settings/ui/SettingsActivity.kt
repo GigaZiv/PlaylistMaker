@@ -8,8 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import androidx.lifecycle.ViewModelProvider
-import rs.example.playlistmaker.App
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import rs.example.playlistmaker.R
 import rs.example.playlistmaker.databinding.ActivitySettingsBinding
 import rs.example.playlistmaker.settings.util.ActionType
@@ -21,12 +20,7 @@ class SettingsActivity : AppCompatActivity() {
         ActivitySettingsBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: SettingsViewModel by lazy {
-        ViewModelProvider(
-            this,
-            SettingsViewModel.getViewModelFactory(this)
-        )[SettingsViewModel::class.java]
-    }
+    private val viewModel by viewModel<SettingsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +44,8 @@ class SettingsActivity : AppCompatActivity() {
             swModeUi.apply {
                 isChecked = viewModel.getTheme()
                 setOnCheckedChangeListener { sender, isChecked ->
-                    (applicationContext as App).switchTheme(sender.isChecked)
                     viewModel.execute(ActionType.Theme(sender.isChecked))
+
                 }
             }
 

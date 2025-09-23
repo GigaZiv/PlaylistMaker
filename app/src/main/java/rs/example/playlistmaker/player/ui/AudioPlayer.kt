@@ -9,10 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import rs.example.playlistmaker.AppConstant.Companion.TRACK_ID
 import rs.example.playlistmaker.R
 import rs.example.playlistmaker.databinding.ActivityAudioPlayerBinding
@@ -26,12 +26,7 @@ class AudioPlayer : AppCompatActivity() {
         ActivityAudioPlayerBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: PlayerViewModel by lazy {
-        ViewModelProvider(
-            this,
-            PlayerViewModel.getViewModelFactory()
-        )[PlayerViewModel::class.java]
-    }
+    private val viewModel by viewModel<PlayerViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

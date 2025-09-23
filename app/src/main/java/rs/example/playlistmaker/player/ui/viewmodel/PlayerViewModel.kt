@@ -5,13 +5,9 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import rs.example.playlistmaker.AppConstant.Companion.DELAY
 import rs.example.playlistmaker.player.domain.PlayControl
 import rs.example.playlistmaker.player.util.PlayerState
-import rs.example.playlistmaker.util.Creator
 
 class PlayerViewModel(private val playerInteractor: PlayControl) :
     ViewModel() {
@@ -40,17 +36,19 @@ class PlayerViewModel(private val playerInteractor: PlayControl) :
         }
     }
 
-    fun prepare(url: String?) {
+    fun prepare(url: String) {
         playerInteractor.preparePlayer(url)
     }
 
     fun playbackControl() {
         val state = playerInteractor.playbackControl()
         renderState(state)
-        if (state == PlayerState.PLAYING) mainThreadHandler.post(progressTimeRunnable) else mainThreadHandler.removeCallbacks(
-            progressTimeRunnable
-        )
+        if (state == PlayerState.PLAYING) mainThreadHandler.post(progressTimeRunnable) else
+            mainThreadHandler.removeCallbacks(
+                progressTimeRunnable
+            )
     }
+
 
     override fun onCleared() {
         super.onCleared()
@@ -66,18 +64,4 @@ class PlayerViewModel(private val playerInteractor: PlayControl) :
     private fun renderState(state: PlayerState) {
         stateLiveData.postValue(state)
     }
-
-    companion object {
-
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-
-                val interactor = Creator.createPlayControl()
-                PlayerViewModel(
-                    interactor
-                )
-            }
-        }
-    }
-
 }
