@@ -23,6 +23,8 @@ livedataKtx = "2.5.1"
 viewmodelKtx = "2.5.1"
 fragmentsKtx = "1.8.9"
 
+koin = "3.3.0"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,6 +32,8 @@ androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", ve
 androidx-fragments-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentsKtx" }
 androidx-lifecycle-ktx = {group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "livedataKtx"}
 androidx-viewmodel-ktx = {group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "viewmodelKtx"}
+
+koin-android = {group = "io.insert-koin", name = "koin-android", version.ref = "koin"}
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }

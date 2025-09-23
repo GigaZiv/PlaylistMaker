@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.ViewModelProvider
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import rs.example.playlistmaker.databinding.ActivitySearchBinding
 import rs.example.playlistmaker.search.domain.models.Track
 import rs.example.playlistmaker.AppConstant.Companion.ID_SEARCH_QUERY
@@ -32,12 +32,7 @@ class SearchActivity : AppCompatActivity() {
         ActivitySearchBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: SearchViewModel by lazy {
-        ViewModelProvider(
-            this,
-            SearchViewModel.getViewModelFactory()
-        )[SearchViewModel::class.java]
-    }
+    private val viewModel by viewModel<SearchViewModel>()
 
     private val tracks: MutableList<Track> = mutableListOf()
     private val adapter = SearchAdapter(tracks) {
@@ -90,7 +85,7 @@ class SearchActivity : AppCompatActivity() {
                 }
 
                 setOnFocusChangeListener { view, hasFocus ->
-                    viewModel.searchDebounce(etSearch.text.trim().toString())
+                    if (etSearch.text.isEmpty()) viewModel.searchHistory()
                 }
             }
 
