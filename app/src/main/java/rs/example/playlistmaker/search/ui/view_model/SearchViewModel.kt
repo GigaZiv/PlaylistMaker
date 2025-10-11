@@ -1,29 +1,18 @@
 package rs.example.playlistmaker.search.ui.view_model
 
-import android.app.Application
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.lifecycle.ViewModel
 import rs.example.playlistmaker.AppConstant.Companion.SEARCH_DEBOUNCE_DELAY
-import rs.example.playlistmaker.R
+import rs.example.playlistmaker.search.domain.api.TracksInteractor
 import rs.example.playlistmaker.search.domain.models.Track
 import rs.example.playlistmaker.search.ui.SearchState
-import rs.example.playlistmaker.util.Creator
 
-class SearchViewModel(
-    application: Application
-) : AndroidViewModel(application) {
 
-    private val tracksInteractor = Creator.provideTrackInteractor(getApplication())
-    private val historyRepository = Creator.getHistoryRepository(getApplication())
-
+class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewModel() {
     private val stateLiveData = MutableLiveData<SearchState>()
     fun observeState(): LiveData<SearchState> = stateLiveData
 
@@ -53,8 +42,8 @@ class SearchViewModel(
 
     private val tracks = ArrayList<Track>()
 
-    private fun searchHistory() {
-        val history = historyRepository.getTrackList()
+    fun searchHistory() {
+        val history = tracksInteractor.getTrackList()
         if (history.isNotEmpty())
             renderState(
                 SearchState.EmptyInput(
@@ -66,11 +55,11 @@ class SearchViewModel(
     }
 
     fun setTrack(track: Track) {
-        historyRepository.setTrack(track)
+        tracksInteractor.setTrack(track)
     }
 
     fun clear() {
-        historyRepository.clear()
+        tracksInteractor.clear()
     }
 
 
@@ -91,7 +80,7 @@ class SearchViewModel(
                         errorMessage != null -> {
                             renderState(
                                 SearchState.Error(
-                                    getApplication<Application>().getString(R.string.c_not_internet),
+                                    errorMessage
                                 )
                             )
                         }
@@ -99,7 +88,7 @@ class SearchViewModel(
                         tracks.isEmpty() -> {
                             renderState(
                                 SearchState.Empty(
-                                    getApplication<Application>().getString(R.string.c_nothing_not_found),
+                                    tracksInteractor.getEmptyMessage(),
                                 )
                             )
                         }
@@ -126,12 +115,5 @@ class SearchViewModel(
 
     companion object {
         private val SEARCH_REQUEST_TOKEN = Any()
-
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SearchViewModel(this[APPLICATION_KEY] as Application)
-            }
-        }
     }
-
 }

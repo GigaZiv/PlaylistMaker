@@ -1,39 +1,29 @@
 package rs.example.playlistmaker
 
 import android.app.Application
-import androidx.appcompat.app.AppCompatDelegate
-import rs.example.playlistmaker.settings.data.impl.SettingsRepositoryImpl
-import rs.example.playlistmaker.settings.domain.SettingsInteractor
+import org.koin.android.ext.android.inject
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+import rs.example.playlistmaker.di.dataModule
+import rs.example.playlistmaker.di.interactorModule
+import rs.example.playlistmaker.di.repositoryModule
+import rs.example.playlistmaker.di.viewModelModule
 import rs.example.playlistmaker.settings.domain.SettingsRepository
-import rs.example.playlistmaker.settings.domain.impl.SettingsInteractorImpl
-import rs.example.playlistmaker.util.Creator
+import kotlin.getValue
 
 class App: Application() {
 
-    fun provideSettingsInteractor(): SettingsInteractor {
-        return SettingsInteractorImpl(getSettingsRepository())
-    }
-
-    private fun getSettingsRepository(): SettingsRepository {
-        return SettingsRepositoryImpl(this)
-    }
+    private val repository: SettingsRepository by inject()
 
     override fun onCreate() {
         super.onCreate()
 
-        Creator.initApplication(this)
+        startKoin {
+            androidContext(this@App)
+            modules(dataModule, repositoryModule, interactorModule, viewModelModule)
+        }
 
-        switchTheme(provideSettingsInteractor().getThemeSettings().darkMode)
+        repository.switchTheme(repository.getThemeSettings())
 
-    }
-
-    fun switchTheme(darkEnabled: Boolean) {
-        AppCompatDelegate.setDefaultNightMode(
-            if (darkEnabled) {
-                AppCompatDelegate.MODE_NIGHT_YES
-            } else {
-                AppCompatDelegate.MODE_NIGHT_NO
-            }
-        )
     }
 }
