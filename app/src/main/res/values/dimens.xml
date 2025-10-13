@@ -24,6 +24,7 @@
     <dimen name="icp_24">24dp</dimen>
     <dimen name="crt_2">2dp</dimen>
     <dimen name="mt_16">16dp</dimen>
+    <dimen name="mt_46">46dp</dimen>
     <dimen name="mb_16">16dp</dimen>
 
 </resources>

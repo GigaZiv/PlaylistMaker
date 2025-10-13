@@ -79,6 +79,9 @@
     <style name="placeHolderTextStyle">
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textSize">@dimen/fs_text_19</item>
+        <item name="android:drawableTop">@drawable/ic_lm_not_search</item>
+        <item name="android:drawablePadding">@dimen/i_p_16</item>
+        <item name="android:textFontWeight">400</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:gravity">center</item>
     </style>
