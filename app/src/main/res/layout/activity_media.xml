@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/media_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".library.ui.MediaActivity">
+    android:orientation="vertical"
+    tools:context=".library.ui.activity.LibraryActivity">
 
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tbMedia"
+        android:theme="@style/s_tool_bar_nav_icon"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/с_media"
-        android:gravity="center">
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/actionBarSize"
+        app:contentInsetStartWithNavigation="0dp"
+        app:titleMarginStart="0dp"
+        app:title="@string/с_media"
+        app:navigationIcon="@drawable/arrow_back"
+        app:titleTextAppearance="@style/s_tool_bar_text" />
 
-    </TextView>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        style="@style/TabLayoutStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

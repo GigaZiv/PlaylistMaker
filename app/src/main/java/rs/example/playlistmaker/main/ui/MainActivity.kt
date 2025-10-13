@@ -9,7 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import rs.example.playlistmaker.R
 import rs.example.playlistmaker.databinding.ActivityMainBinding
-import rs.example.playlistmaker.library.ui.MediaActivity
+import rs.example.playlistmaker.library.ui.activity.LibraryActivity
 import rs.example.playlistmaker.search.ui.SearchActivity
 import rs.example.playlistmaker.settings.ui.SettingsActivity
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 SearchActivity.show(this@MainActivity)
             }
             media.setOnClickListener {
-                MediaActivity.show(this@MainActivity)
+                LibraryActivity.show(this@MainActivity)
             }
             tools.setOnClickListener {
                 SettingsActivity.show(this@MainActivity)

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/addButton"
+        style="@style/placeHolderButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/icp_24"
+        android:text="@string/c_new_list" />
+
+    <ImageView
+        android:id="@+id/messageImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_lm_not_search"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/i_p_46"
+        android:contentDescription="@string/c_playlist_message" />
+
+    <TextView
+        android:id="@+id/messageText"
+        style="@style/placeHolderTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/c_playlist_message"
+        android:layout_marginTop="@dimen/mt_16" />
+</LinearLayout>
