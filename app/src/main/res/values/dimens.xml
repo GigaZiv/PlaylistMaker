@@ -9,8 +9,11 @@
     <dimen name="i_p_30">30dp</dimen>
     <dimen name="i_p_38">38dp</dimen>
     <dimen name="i_p_42">42dp</dimen>
+    <dimen name="i_p_54">54dp</dimen>
+    <dimen name="i_p_46">46dp</dimen>
     <dimen name="fs_text_11">11sp</dimen>
     <dimen name="fs_text_12">12sp</dimen>
+    <dimen name="fs_text_14">14sp</dimen>
     <dimen name="fs_text_16">16sp</dimen>
     <dimen name="fs_text_19">19sp</dimen>
     <dimen name="fs_text_22">22sp</dimen>
@@ -21,6 +24,7 @@
     <dimen name="icp_24">24dp</dimen>
     <dimen name="crt_2">2dp</dimen>
     <dimen name="mt_16">16dp</dimen>
+    <dimen name="mt_46">46dp</dimen>
     <dimen name="mb_16">16dp</dimen>
 
 </resources>

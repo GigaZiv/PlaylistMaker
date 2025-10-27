@@ -12,6 +12,7 @@ import rs.example.playlistmaker.player.util.PlayerState
 class PlayerViewModel(private val playerInteractor: PlayControl) :
     ViewModel() {
 
+
     init {
         playerInteractor.setOnStateChangeListener { state ->
             stateLiveData.postValue(state)

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -37,23 +38,20 @@
             <TextView
                 android:id="@+id/twNameGroup"
                 style="@style/s_text_view_song_attr"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Название группы"/>
-
-            <ImageView
-                style="@style/s_iv_separate"
-                android:contentDescription="@string/с_separate"
-                android:src="@drawable/ic_circle_a"
-                />
+                android:layout_weight="1"
+                tools:text="Название группы" />
 
             <TextView
                 android:id="@+id/twDuration"
                 style="@style/s_text_view_song_attr"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_gravity="fill_horizontal"
+                app:drawableStartCompat="@drawable/ic_circle_a"
                 tools:text="00:00" />
-
         </LinearLayout>
 
     </LinearLayout>

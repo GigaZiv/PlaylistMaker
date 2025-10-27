@@ -9,7 +9,9 @@
     <string name="c_w_support">Написать в поддержку</string>
     <string name="c_lic">Пользовательское соглашение</string>
     <string name="c_theme_dark">Темная тема</string>
-    <string name="с_media">Media</string>
+    <string name="с_media">Медиатека</string>
+    <string name="с_playlist">Плейлисты</string>
+    <string name="c_favorite_tracks">Избранные треки</string>
     <string name="с_themeSupport">Сообщение разработчикам и разработчицам приложения Playlist Market</string>
     <string name="с_massageSupport">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="с_termsOfUse">https://yandex.ru/legal/practicum_offer/</string>
@@ -32,4 +34,7 @@
     <string name="c_style">Жанр</string>
     <string name="c_country">Страна</string>
     <string name="c_error_message">Не найдено приложения для запуска!</string>
+    <string name="c_new_list">Новый плейлист</string>
+    <string name="c_playlist_message">Вы не создали\n\ни одного плейлиста</string>
+    <string name="c_tracks_message">Ваша медиатека пуста</string>
 </resources>
