@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import rs.example.playlistmaker.databinding.TracksFragmentBinding
 import rs.example.playlistmaker.library.ui.viewmodel.TracksViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TracksFragment : Fragment() {
 

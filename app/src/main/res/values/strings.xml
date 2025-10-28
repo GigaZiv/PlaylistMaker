@@ -37,4 +37,6 @@
     <string name="c_new_list">Новый плейлист</string>
     <string name="c_playlist_message">Вы не создали\n\ни одного плейлиста</string>
     <string name="c_tracks_message">Ваша медиатека пуста</string>
+    <string name="my_track">Избранные треки</string>
+    <string name="playlists">Плейлисты</string>
 </resources>

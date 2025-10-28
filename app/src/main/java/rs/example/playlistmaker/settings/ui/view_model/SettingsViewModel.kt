@@ -1,11 +1,10 @@
-package rs.example.playlistmaker.settings.view_model
+package rs.example.playlistmaker.settings.ui.view_model
 
 import androidx.lifecycle.ViewModel
-import rs.example.playlistmaker.sharing.domain.SharingInteractor
 import rs.example.playlistmaker.settings.domain.SettingsInteractor
 import rs.example.playlistmaker.settings.domain.model.ThemeSettings
 import rs.example.playlistmaker.settings.util.ActionType
-
+import rs.example.playlistmaker.sharing.domain.SharingInteractor
 
 class SettingsViewModel(
     private val sharingInteractor: SharingInteractor,
