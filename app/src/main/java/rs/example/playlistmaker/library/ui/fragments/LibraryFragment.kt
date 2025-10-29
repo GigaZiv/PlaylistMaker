@@ -12,7 +12,7 @@ import rs.example.playlistmaker.library.ui.adapter.LibraryViewPagerAdapter
 
 class LibraryFragment : Fragment() {
 
-    private lateinit var binding: FragmentLibraryBinding
+    private var binding: FragmentLibraryBinding? = null
     private lateinit var tabMediator: TabLayoutMediator
 
     override fun onCreateView(
@@ -21,14 +21,14 @@ class LibraryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLibraryBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding.viewPager.adapter = LibraryViewPagerAdapter(childFragmentManager, lifecycle)
+        binding!!.viewPager.adapter = LibraryViewPagerAdapter(childFragmentManager, lifecycle)
 
-        tabMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+        tabMediator = TabLayoutMediator(binding!!.tabLayout, binding!!.viewPager) { tab, position ->
             when (position) {
                 0 -> tab.text = getString(R.string.my_track)
                 1 -> tab.text = getString(R.string.playlists)
@@ -40,5 +40,10 @@ class LibraryFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         tabMediator.detach()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

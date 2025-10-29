@@ -11,7 +11,8 @@
     <TextView
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center_vertical"
         style="@style/HeadStyle"
         android:paddingVertical="@dimen/icp_14"
         android:paddingStart="@dimen/icp_16"
@@ -26,6 +27,9 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         style="@style/TabLayoutStyle"
+        app:tabIndicator="@drawable/indicator_tab_media"
+        app:tabTextAppearance="@style/CustomTextAppearance"
+        app:tabTextColor="?attr/colorOnSecondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

@@ -27,4 +27,8 @@ class TracksFragment : Fragment() {
         binding = TracksFragmentBinding.inflate(inflater, container, false)
         return binding!!.root
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
 }

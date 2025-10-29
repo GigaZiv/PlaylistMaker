@@ -11,7 +11,8 @@
     <TextView
         style="@style/HeadStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center_vertical"
         android:layout_gravity="start"
         android:paddingVertical="@dimen/icp_14"
         android:paddingStart="@dimen/icp_16"
