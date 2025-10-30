@@ -30,6 +30,7 @@
         app:tabIndicator="@drawable/indicator_tab_media"
         app:tabTextAppearance="@style/CustomTextAppearance"
         app:tabTextColor="?attr/colorOnSecondary"
+        android:background="?attr/colorOnPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
