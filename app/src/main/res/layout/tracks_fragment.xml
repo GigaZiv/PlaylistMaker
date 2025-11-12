@@ -7,10 +7,11 @@
 
     <TextView
         android:id="@+id/messageText"
-        style="@style/placeHolderTextStyle"
+        style="@style/s_text_view_not_found"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/mt_46"
         android:text="@string/c_tracks_message" />
+
 </LinearLayout>

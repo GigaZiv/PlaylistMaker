@@ -79,9 +79,6 @@
     <style name="placeHolderTextStyle">
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textSize">@dimen/fs_text_19</item>
-        <item name="android:drawableTop">@drawable/ic_lm_not_search</item>
-        <item name="android:drawablePadding">@dimen/i_p_16</item>
-        <item name="android:textFontWeight">400</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:gravity">center</item>
     </style>
@@ -123,6 +120,23 @@
         <item name="android:ellipsize">end</item>
         <item name="android:textColor">@color/ico_gray</item>
         <item name="tint">@color/ico_gray</item>
+    </style>
+
+    <style name="NavigationButtonStyle">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="itemTextColor">@drawable/bottom_navigate_color</item>
+        <item name="android:textSize">@dimen/fs_text_12</item>
+        <item name="itemIconTint">@drawable/bottom_navigate_color</item>
+        <item name="backgroundTint">@color/white</item>
+    </style>
+
+    <style name="HeadStyle">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/fs_text_26</item>
+        <item name="tint">@color/black</item>
     </style>
 
     <style name="s_tool_bar_nav_icon">
@@ -204,13 +218,39 @@
     </style>
 
     <style name="TabLayoutStyle">
-        <item name="tabTextColor">@color/black</item>
         <item name="tabIndicatorColor">@color/black</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textFontWeight">500</item>
-        <item name="tabTextAppearance">@android:style/TextAppearance.Widget.TabWidget</item>
         <item name="android:textSize">@dimen/fs_text_14</item>
-        <item name="android:layout_margin">@dimen/i_p_16</item>
     </style>
 
+    <style name="colorMenu">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="colorMenuTab">
+        <item name="android:background">@color/ico_gray</item>
+    </style>
+
+    <style name="BottomNavigationViewTextStyle">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="CustomTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+
+    <style name="EditTextStyle">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="iconGravity">textStart</item>
+        <item name="android:drawablePadding">9dp</item>
+        <item name="drawableTint">@color/ico_gray</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/ico_gray</item>
+        <item name="android:shadowRadius">0</item>
+    </style>
 </resources>
