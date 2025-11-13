@@ -8,7 +8,7 @@ class AppConstant {
         const val SEARCH_KEY_STORE = "search_history_tracks"
         const val THEME_KEY = "rs_theme_key"
         const val TRACK_ID = "track_id"
-        const val DELAY = 25L
+        const val DELAY = 300L
         const val CLICK_DEBOUNCE_DELAY = 1000L
         const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
