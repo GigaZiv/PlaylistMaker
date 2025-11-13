@@ -52,6 +52,8 @@ dependencies {
     implementation(libs.androidx.fragments.ktx)
     implementation(libs.androidx.viewmodel.ktx)
 
+    implementation(libs.kotlinx.coroutines.android)
+
     implementation(libs.koin.android)
 
     implementation(libs.androidx.constraintlayout)

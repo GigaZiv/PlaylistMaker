@@ -3,6 +3,8 @@ package rs.example.playlistmaker.search.data.network
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import rs.example.playlistmaker.search.data.dto.Response
 import rs.example.playlistmaker.search.data.dto.SearchRequest
 
@@ -11,17 +13,21 @@ class RetrofitNetworkClient(
     private val context: Context
 ) : NetworkClient {
 
-    override fun doRequest(dto: Any): Response {
+    override suspend fun doRequest(dto: Any): Response {
         if (!isConnected()) {
             return Response().apply { resultCode = -1 }
         }
         if (dto !is SearchRequest) {
             return Response().apply { resultCode = 400 }
         }
-        val resp = itunesService.search(dto.expression).execute()
-        val body = resp.body()
-        return body?.apply { resultCode = resp.code() } ?: Response().apply {
-            resultCode = resp.code()
+
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = itunesService.search(dto.expression)
+                response.apply { resultCode = 200 }
+            } catch (e: Throwable) {
+                Response().apply { resultCode = 500 }
+            }
         }
     }
 

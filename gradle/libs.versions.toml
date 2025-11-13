@@ -26,6 +26,7 @@ fragmentsKtx = "1.8.9"
 koin = "3.3.0"
 navigationFragmentKtx = "2.9.5"
 navigationUiKtx = "2.9.5"
+kotlinxAndroid = "1.6.4"
 
 
 [libraries]
@@ -34,6 +35,8 @@ androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", ve
 androidx-fragments-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentsKtx" }
 androidx-lifecycle-ktx = {group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "livedataKtx"}
 androidx-viewmodel-ktx = {group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "viewmodelKtx"}
+
+kotlinx-coroutines-android = {group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxAndroid"}
 
 koin-android = {group = "io.insert-koin", name = "koin-android", version.ref = "koin"}
 
