@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import rs.example.playlistmaker.AppConstant.Companion.CLICK_DEBOUNCE_DELAY
 import rs.example.playlistmaker.AppConstant.Companion.ID_SEARCH_QUERY
@@ -22,6 +23,8 @@ import rs.example.playlistmaker.search.domain.models.Track
 import rs.example.playlistmaker.search.ui.SearchState
 import rs.example.playlistmaker.search.ui.adapter.SearchAdapter
 import rs.example.playlistmaker.search.ui.view_model.SearchViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class SearchFragment : Fragment() {
@@ -35,7 +38,6 @@ class SearchFragment : Fragment() {
             AudioPlayer.startActivity(requireContext(), it)
         }
     }
-    private val handler = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
     private var inputText: String = ""
     private var simpleTextWatcher: TextWatcher? = null
@@ -115,10 +117,10 @@ class SearchFragment : Fragment() {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            handler.postDelayed(
-                { isClickAllowed = true },
-                CLICK_DEBOUNCE_DELAY
-            )
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
         }
         return current
     }
