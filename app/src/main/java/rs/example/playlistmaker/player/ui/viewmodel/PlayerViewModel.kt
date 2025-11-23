@@ -9,12 +9,16 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import rs.example.playlistmaker.AppConstant.Companion.DELAY
+import rs.example.playlistmaker.library.domain.FavoriteTracksInteractor
 import rs.example.playlistmaker.player.domain.PlayControl
 import rs.example.playlistmaker.player.util.PlayerState
+import rs.example.playlistmaker.search.domain.models.Track
 
-class PlayerViewModel(private val playerInteractor: PlayControl) :
+class PlayerViewModel(
+    private val playerInteractor: PlayControl,
+    private val favoriteInteractor: FavoriteTracksInteractor
+) :
     ViewModel() {
-
 
     init {
         playerInteractor.setOnStateChangeListener { state ->
@@ -31,6 +35,9 @@ class PlayerViewModel(private val playerInteractor: PlayControl) :
     private val stateProgressTimeLiveData = MutableLiveData<String>()
     fun observeProgressTimeState(): LiveData<String> = stateProgressTimeLiveData
 
+    private val stateFavoriteData = MutableLiveData<Boolean>()
+    fun observeFavoriteState(): LiveData<Boolean> = stateFavoriteData
+
     private var timerJob: Job? = null
 
     private fun startTimer(state: PlayerState) {
@@ -42,8 +49,11 @@ class PlayerViewModel(private val playerInteractor: PlayControl) :
         }
     }
 
-    fun prepare(url: String) {
-        playerInteractor.preparePlayer(url)
+    fun prepare(track: Track) {
+        viewModelScope.launch {
+            playerInteractor.preparePlayer(track.previewUrl)
+            getChecked(track)
+        }
     }
 
     fun playbackControl() {
@@ -52,12 +62,6 @@ class PlayerViewModel(private val playerInteractor: PlayControl) :
         if (state == PlayerState.PLAYING) startTimer(state) else cancelTimer()
 
     }
-
-    private fun cancelTimer() {
-        timerJob?.cancel()
-        timerJob = null
-    }
-
 
     override fun onCleared() {
         super.onCleared()
@@ -71,5 +75,26 @@ class PlayerViewModel(private val playerInteractor: PlayControl) :
 
     private fun renderState(state: PlayerState) {
         stateLiveData.postValue(state)
+    }
+
+    private fun cancelTimer() {
+        timerJob?.cancel()
+        timerJob = null
+    }
+
+    fun onFavoriteClicked(track: Track) {
+        viewModelScope.launch {
+            renderFavoriteState(favoriteInteractor.updateFavorite(track))
+        }
+    }
+
+    fun getChecked(track: Track) {
+        viewModelScope.launch {
+            renderFavoriteState(favoriteInteractor.getChecked(track.trackId))
+        }
+    }
+
+    private fun renderFavoriteState(isChecked: Boolean) {
+        stateFavoriteData.postValue(isChecked)
     }
 }
