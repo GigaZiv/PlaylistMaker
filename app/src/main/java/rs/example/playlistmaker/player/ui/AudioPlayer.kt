@@ -43,6 +43,10 @@ class AudioPlayer : AppCompatActivity() {
             iwBack.setOnClickListener { finish() }
         }
 
+        viewModel.observeFavoriteState().observe(this) {
+            favoriteRender(it)
+        }
+
         viewModel.observeState().observe(this) {
             render(it)
         }
@@ -62,6 +66,7 @@ class AudioPlayer : AppCompatActivity() {
         }
 
         ibPlay.setOnClickListener { viewModel.playbackControl() }
+        ibAddFavorite.setOnClickListener { viewModel.onFavoriteClicked(track) }
 
         twTitleValue.text = track.trackName
         twArtistValue.text = track.artistName
@@ -91,8 +96,14 @@ class AudioPlayer : AppCompatActivity() {
             )
             .into(ivTrackImageLarge)
 
-        viewModel.prepare(track.previewUrl)
+        viewModel.prepare(track)
 
+    }
+    private fun favoriteRender(favoriteChecked: Boolean) {
+        if (favoriteChecked)
+            binding.ibAddFavorite.setImageResource(R.drawable.ic_favorite_on)
+        else
+            binding.ibAddFavorite.setImageResource(R.drawable.ic_favorite_off)
     }
 
     private fun render(state: PlayerState) {

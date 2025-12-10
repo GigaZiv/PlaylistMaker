@@ -11,7 +11,7 @@ import rs.example.playlistmaker.settings.ui.view_model.SettingsViewModel
 val viewModelModule = module {
 
     viewModel {
-        PlayerViewModel(get())
+        PlayerViewModel(get(), get())
     }
 
     viewModel {
@@ -21,10 +21,12 @@ val viewModelModule = module {
     viewModel {
         SettingsViewModel(get(), get())
     }
+
     viewModel {
         PlaylistViewModel()
     }
+
     viewModel {
-        TracksViewModel()
+        TracksViewModel(get())
     }
 }

@@ -2,6 +2,9 @@ package rs.example.playlistmaker.di
 
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
+import rs.example.playlistmaker.library.data.FavoriteTracksRepositoryImpl
+import rs.example.playlistmaker.library.data.TrackDbMapper
+import rs.example.playlistmaker.library.domain.FavoriteTracksRepository
 import rs.example.playlistmaker.player.domain.PlayerClient
 import rs.example.playlistmaker.player.domain.impl.PlayerClientImpl
 import rs.example.playlistmaker.search.data.TrackHistoryRepositoryImpl
@@ -17,9 +20,10 @@ import rs.example.playlistmaker.sharing.domain.SharingRepository
 val repositoryModule = module {
 
     single { TrackMapper() }
+    factory { TrackDbMapper() }
 
     single<TracksRepository> {
-        TracksRepositoryImpl(get(), get(), androidContext())
+        TracksRepositoryImpl(get(),get(),androidContext())
     }
 
     single<TrackHistoryRepository> {
@@ -36,5 +40,9 @@ val repositoryModule = module {
 
     factory<PlayerClient> {
         PlayerClientImpl(get())
+    }
+
+    single<FavoriteTracksRepository> {
+        FavoriteTracksRepositoryImpl(get(), get())
     }
 }

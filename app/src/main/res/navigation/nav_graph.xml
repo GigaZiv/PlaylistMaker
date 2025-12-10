@@ -9,7 +9,11 @@
         android:id="@+id/searchFragment"
         android:name="rs.example.playlistmaker.search.ui.fragments.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_audioPlayer"
+            app:destination="@id/audioPlayer" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="rs.example.playlistmaker.settings.ui.fragments.SettingsFragment"
@@ -19,5 +23,13 @@
         android:id="@+id/libraryFragment"
         android:name="rs.example.playlistmaker.library.ui.fragments.LibraryFragment"
         android:label="fragment_library"
-        tools:layout="@layout/fragment_library" />
+        tools:layout="@layout/fragment_library" >
+        <action
+            android:id="@+id/action_libraryFragment_to_audioPlayer"
+            app:destination="@id/audioPlayer" />
+    </fragment>
+    <activity
+        android:id="@+id/audioPlayer"
+        android:name="rs.example.playlistmaker.player.ui.AudioPlayer"
+        android:label="AudioPlayer" />
 </navigation>

@@ -1,6 +1,8 @@
 package rs.example.playlistmaker.di
 
 import org.koin.dsl.module
+import rs.example.playlistmaker.library.domain.FavoriteTracksInteractor
+import rs.example.playlistmaker.library.domain.db.FavoriteTracksInteractorImpl
 import rs.example.playlistmaker.player.domain.PlayControl
 import rs.example.playlistmaker.player.domain.impl.PlayControlImpl
 import rs.example.playlistmaker.player.util.PlayerState
@@ -16,7 +18,7 @@ val interactorModule = module {
     factory { PlayerState.PREPARED }
 
     single<TracksInteractor> {
-        TracksInteractorImpl(get(),get())
+        TracksInteractorImpl(get(), get())
     }
 
     single<SettingsInteractor> {
@@ -29,5 +31,9 @@ val interactorModule = module {
 
     factory<PlayControl> {
         PlayControlImpl(get(), get())
+    }
+
+    single<FavoriteTracksInteractor> {
+        FavoriteTracksInteractorImpl(get())
     }
 }

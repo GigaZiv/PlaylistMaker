@@ -13,9 +13,12 @@ import rs.example.playlistmaker.search.ui.SearchState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
-
 class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewModel() {
+    companion object {
+        private val SEARCH_REQUEST_TOKEN = Any()
+    }
+
+
     private val stateLiveData = MutableLiveData<SearchState>()
     fun observeState(): LiveData<SearchState> = stateLiveData
 
@@ -118,8 +121,5 @@ class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
                 )
             }
         }
-    }
-    companion object {
-        private val SEARCH_REQUEST_TOKEN = Any()
     }
 }

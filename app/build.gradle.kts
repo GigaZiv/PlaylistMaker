@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -38,7 +39,6 @@ android {
     buildFeatures {
         viewBinding = true
     }
-
 }
 
 dependencies {
@@ -55,6 +55,11 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.koin.android)
+
+    implementation(libs.androidx.room)
+    implementation(libs.androidx.room.ktx)
+    annotationProcessor(libs.androidx.room.annotation.processor)
+    ksp(libs.androidx.room.annotation.processor)
 
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.splashscreen)
