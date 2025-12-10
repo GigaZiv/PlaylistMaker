@@ -12,6 +12,7 @@ class TracksInteractorImpl(
     private val searchRepository: TracksRepository,
     private val historyRepository: TrackHistoryRepository
 ) : TracksInteractor {
+
     override fun searchTracks(expression: String): Flow<Pair<List<Track>?, String?>> {
         return searchRepository.searchTracks(expression).map { result ->
             when (result) {

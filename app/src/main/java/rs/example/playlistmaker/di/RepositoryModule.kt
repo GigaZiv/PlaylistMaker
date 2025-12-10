@@ -1,10 +1,16 @@
 package rs.example.playlistmaker.di
 
+import rs.example.playlistmaker.playlist_creator.data.local.FileRepositoryImpl
+import rs.example.playlistmaker.playlist_creator.domain.FileRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import rs.example.playlistmaker.library.data.FavoriteTracksRepositoryImpl
+import rs.example.playlistmaker.library.data.JsonMapper
+import rs.example.playlistmaker.library.data.PlayListDbMapper
+import rs.example.playlistmaker.library.data.PlaylistRepositoryImpl
 import rs.example.playlistmaker.library.data.TrackDbMapper
 import rs.example.playlistmaker.library.domain.FavoriteTracksRepository
+import rs.example.playlistmaker.library.domain.PlaylistRepository
 import rs.example.playlistmaker.player.domain.PlayerClient
 import rs.example.playlistmaker.player.domain.impl.PlayerClientImpl
 import rs.example.playlistmaker.search.data.TrackHistoryRepositoryImpl
@@ -20,7 +26,11 @@ import rs.example.playlistmaker.sharing.domain.SharingRepository
 val repositoryModule = module {
 
     single { TrackMapper() }
-    factory { TrackDbMapper() }
+    single { TrackDbMapper() }
+    single { PlayListDbMapper() }
+    single { JsonMapper(get()) }
+
+
 
     single<TracksRepository> {
         TracksRepositoryImpl(get(),get(),androidContext())
@@ -45,4 +55,9 @@ val repositoryModule = module {
     single<FavoriteTracksRepository> {
         FavoriteTracksRepositoryImpl(get(), get())
     }
+
+    single<PlaylistRepository> { PlaylistRepositoryImpl(get(),get(),get()) }
+
+    single<FileRepository> { FileRepositoryImpl(get()) }
 }
+
