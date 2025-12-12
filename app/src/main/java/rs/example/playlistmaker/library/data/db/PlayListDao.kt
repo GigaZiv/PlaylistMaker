@@ -1,0 +1,20 @@
+package rs.example.playlistmaker.library.data.db
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import rs.example.playlistmaker.library.data.db.entity.PlayListEntity
+
+@Dao
+interface PlayListDao {
+    @Insert(entity = PlayListEntity::class, onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPlaylist(playList: PlayListEntity): Long
+    @Query("SELECT * FROM playlist_table")
+    suspend fun getPlayLists(): List<PlayListEntity>
+    @Update(entity = PlayListEntity::class,onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updatePlayList(playList: PlayListEntity)
+    @Query("SELECT tracks FROM playlist_table WHERE id = :playListId" )
+    suspend fun getTrackList(playListId: Long): List<String>
+}

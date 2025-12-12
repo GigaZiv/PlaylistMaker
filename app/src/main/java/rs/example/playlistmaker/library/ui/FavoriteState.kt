@@ -7,5 +7,4 @@ sealed interface FavoriteState {
         val tracks: List<Track>
     ) : FavoriteState
     object Empty : FavoriteState
-    object Loading : FavoriteState
 }

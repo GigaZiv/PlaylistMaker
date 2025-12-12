@@ -5,8 +5,6 @@ import java.util.Locale
 
 object StaffFunctions {
 
-    const val ZERO_TIME = "00:00"
-
     fun getSimpleDateFormatLong(i: Long): String {
         return SimpleDateFormat(
             "mm:ss",

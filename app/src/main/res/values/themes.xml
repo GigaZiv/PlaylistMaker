@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="Base.Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
 
@@ -14,8 +14,6 @@
 
     <style name="Theme.App.SplashScreen" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_violin</item>
-        <item name="android:windowSplashScreenBrandingImage" tools:targetApi="s">@drawable/ic_box
-        </item>
         <item name="windowSplashScreenBackground">@color/blue</item>
         <item name="windowSplashScreenAnimationDuration">2000</item>
         <item name="postSplashScreenTheme">@style/Theme.PlaylistMaker</item>

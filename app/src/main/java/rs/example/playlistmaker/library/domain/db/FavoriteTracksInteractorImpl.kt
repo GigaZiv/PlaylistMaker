@@ -8,12 +8,12 @@ import rs.example.playlistmaker.search.domain.models.Track
 class FavoriteTracksInteractorImpl(
     private val favoriteTracksRepository: FavoriteTracksRepository): FavoriteTracksInteractor {
 
-    private var isChecked = false
     override fun getTracks(): Flow<List<Track>> {
         return favoriteTracksRepository.getFavoriteTracks()
     }
 
     override suspend fun updateFavorite(track: Track): Boolean {
+        var isChecked = false
         favoriteTracksRepository.getFavoriteChecked().collect {tracksId ->
             isChecked = if (tracksId.contains(track.trackId)) {
                 favoriteTracksRepository.deleteFavoriteTrack(track)
@@ -27,6 +27,7 @@ class FavoriteTracksInteractorImpl(
     }
 
     override suspend fun getChecked(tracksId: Long) : Boolean {
+        var isChecked = false
         favoriteTracksRepository.getFavoriteChecked().collect { id ->
             isChecked = id.contains(tracksId)
         }

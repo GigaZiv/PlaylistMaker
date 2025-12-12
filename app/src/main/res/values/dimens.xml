@@ -9,6 +9,7 @@
     <dimen name="i_p_30">30dp</dimen>
     <dimen name="i_p_38">38dp</dimen>
     <dimen name="i_p_42">42dp</dimen>
+    <dimen name="i_p_45">45dp</dimen>
     <dimen name="i_p_52">54dp</dimen>
     <dimen name="i_p_54">54dp</dimen>
     <dimen name="i_p_46">46dp</dimen>
@@ -23,8 +24,10 @@
     <dimen name="icp_8">8dp</dimen>
     <dimen name="icp_9">9dp</dimen>
     <dimen name="icp_10">10dp</dimen>
+    <dimen name="icp_13">13dp</dimen>
     <dimen name="icp_14">14dp</dimen>
     <dimen name="icp_16">16dp</dimen>
+    <dimen name="icp_160">160dp</dimen>
     <dimen name="icp_21">21dp</dimen>
     <dimen name="icp_24">24dp</dimen>
     <dimen name="crt_2">2dp</dimen>

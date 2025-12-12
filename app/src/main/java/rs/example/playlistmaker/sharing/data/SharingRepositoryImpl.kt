@@ -9,8 +9,7 @@ import rs.example.playlistmaker.R
 class SharingRepositoryImpl(
     private val externalNavigator: ExternalNavigator,
     val context: Context
-) :
-    SharingRepository {
+) :SharingRepository {
 
     override fun shareApp() {
         externalNavigator.shareLink(getShareAppLink())
