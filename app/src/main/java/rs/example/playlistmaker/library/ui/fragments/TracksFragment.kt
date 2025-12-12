@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import rs.example.playlistmaker.AppConstant.Companion.CLICK_DEBOUNCE_DELAY
 import rs.example.playlistmaker.R
 import rs.example.playlistmaker.databinding.TracksFragmentBinding
 import rs.example.playlistmaker.library.ui.FavoriteState
@@ -26,7 +27,6 @@ class TracksFragment : Fragment() {
 
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 100L
         fun newInstance() = TracksFragment()
     }
 
@@ -52,7 +52,7 @@ class TracksFragment : Fragment() {
             render(it)
         }
         onTrackClickDebounce = debounce(
-            CLICK_DEBOUNCE_DELAY_MILLIS,
+            CLICK_DEBOUNCE_DELAY,
             viewLifecycleOwner.lifecycleScope,
             false
         ) { track ->

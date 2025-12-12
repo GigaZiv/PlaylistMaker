@@ -239,7 +239,7 @@
     </style>
 
     <style name="inputTextStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@color/customize_et</item>
+        <item name="boxStrokeColor">@color/customize_et_night</item>
         <item name="hintTextColor">@color/blue</item>
         <item name="android:textColorHint">?attr/colorOnSecondary</item>
         <item name="android:textColor">?attr/colorOnSecondary</item>

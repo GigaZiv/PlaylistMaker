@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -13,12 +14,14 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import rs.example.playlistmaker.player.ui.view_model.PlayerViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import rs.example.playlistmaker.AppConstant.Companion.CLICK_DEBOUNCE_DELAY_LIST
 import rs.example.playlistmaker.R
 import rs.example.playlistmaker.databinding.AudioPlayerBinding
 import rs.example.playlistmaker.library.domain.model.PlayList
 import rs.example.playlistmaker.main.ui.MainActivityViewModel
 import rs.example.playlistmaker.player.util.PlayerState
 import rs.example.playlistmaker.search.domain.models.Track
+import rs.example.playlistmaker.search.ui.debounce
 import rs.example.playlistmaker.utils.StaffFunctions.getSimpleDateFormatLong
 
 class AudioPlayer : Fragment() {
@@ -30,8 +33,10 @@ class AudioPlayer : Fragment() {
     private val binding get() = _binding!!
     private val playlists = mutableListOf<PlayList>()
     var track: Track? = null
+    private lateinit var onPlayListClickDebounce: (PlayList) -> Unit
     private val adapter = SmallPlayListAdapter(playlists) {
-        track?.let { it1 -> viewModel.addToPlaylist(it1, it) }
+        //track?.let { it1 -> viewModel.addToPlaylist(it1, it) }
+        onPlayListClickDebounce(it)
     }
 
     override fun onCreateView(
@@ -44,6 +49,15 @@ class AudioPlayer : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        onPlayListClickDebounce = debounce(
+            CLICK_DEBOUNCE_DELAY_LIST,
+            viewLifecycleOwner.lifecycleScope,
+            false
+        ) { playlists ->
+            track?.let { it1 -> viewModel.addToPlaylist(it1, playlists) }
+        }
+
         hostViewModel.getCurrentTrack().observe(viewLifecycleOwner) { currentTrack ->
             this.track = currentTrack
             renderInformation(currentTrack)
@@ -89,7 +103,7 @@ class AudioPlayer : Fragment() {
         }
 
         viewModel.observeAddDate().observe(viewLifecycleOwner) {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            //bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             showToast(it)
         }
         binding.iwBack.setOnClickListener { findNavController().navigateUp() }
@@ -100,13 +114,14 @@ class AudioPlayer : Fragment() {
         }
 
         binding.addPlaylistButton.setOnClickListener {
-            findNavController().navigate((R.id.action_audioPlayer_to_playlistCreatorFragment))
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            findNavController().navigate((R.id.action_audioPlayer_to_playlistCreatorFragment))
         }
     }
 
     private fun renderInformation(track: Track) {
         viewModel.prepare(track)
+        binding.twTitleValue.text = track.trackName
         binding.twArtistValue.text = track.artistName
         binding.iwCollectionNameValue.text = track.collectionName
         binding.iwReleaseDateValue.text = track.releaseDate?.substring(0, 4)
@@ -155,7 +170,12 @@ class AudioPlayer : Fragment() {
 
     private fun showToast(result: Pair<String, Boolean>) {
         val message =
-            if (result.second) getString(R.string.add_track_message) else getString(R.string.add_track_message_false)
+            if (result.second) {
+                BottomSheetBehavior.from(binding.playlistsBottomSheet).state = BottomSheetBehavior.STATE_HIDDEN
+                getString(R.string.add_track_message)
+            } else {
+                getString(R.string.add_track_message_false)
+            }
         Toast.makeText(requireContext(), message + " " + result.first, Toast.LENGTH_SHORT).show()
     }
 

@@ -17,7 +17,9 @@ class PlaylistInteractorImpl(private val playlistRepository: PlaylistRepository)
         return if (tracks.isEmpty() || !tracks.contains(track)) {
             playlistRepository.addTrack(track, playList)
             true
-        } else false
+        } else {
+            false
+        }
 
     }
 }
