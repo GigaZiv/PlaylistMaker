@@ -15,7 +15,6 @@ import rs.example.playlistmaker.library.domain.model.PlayList
 import rs.example.playlistmaker.player.domain.PlayControl
 import rs.example.playlistmaker.player.util.PlayerState
 import rs.example.playlistmaker.search.domain.models.Track
-import rs.example.playlistmaker.utils.SingleLiveEvent
 
 class PlayerViewModel(
     private val playerInteractor: PlayControl,
@@ -44,7 +43,7 @@ class PlayerViewModel(
     private val playListsLiveData = MutableLiveData<List<PlayList>>()
     fun observePlaylistState(): LiveData<List<PlayList>> = playListsLiveData
 
-    private val addLiveData = SingleLiveEvent<Pair<String, Boolean>>()
+    private val addLiveData = MutableLiveData<Pair<String, Boolean>>()
     fun observeAddDate(): LiveData<Pair<String, Boolean>> = addLiveData
 
     private var timerJob: Job? = null

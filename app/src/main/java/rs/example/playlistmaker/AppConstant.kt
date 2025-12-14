@@ -9,7 +9,6 @@ class AppConstant {
         const val THEME_KEY = "rs_theme_key"
         const val DELAY = 300L
         const val CLICK_DEBOUNCE_DELAY = 1000L
-        const val CLICK_DEBOUNCE_DELAY_LIST = 500L
         const val SEARCH_DEBOUNCE_DELAY = 2000L
         const val ALBUM = "myalbum"
         const val ZERO_TIME = "00:00"

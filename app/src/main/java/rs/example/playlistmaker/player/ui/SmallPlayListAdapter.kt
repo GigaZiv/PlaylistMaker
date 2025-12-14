@@ -10,8 +10,7 @@ import rs.example.playlistmaker.library.domain.model.PlayList
 import java.io.File
 
 class SmallPlayListAdapter(
-    val data: List<PlayList>,
-    private val clickListener: (PlayList) -> Unit
+    val data: List<PlayList>, var clickListener: ((PlayList) -> Unit)? = null
 ) :
     RecyclerView.Adapter<SmallPlayListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SmallPlayListViewHolder {
@@ -26,8 +25,9 @@ class SmallPlayListAdapter(
 
     override fun onBindViewHolder(holder: SmallPlayListViewHolder, position: Int) {
         holder.bind(data[position])
-        holder.itemView.setOnClickListener {
-            clickListener.invoke(data[position])
+        holder.itemView.setOnClickListener() {
+            val itemsViewModel = data[position]
+            clickListener?.invoke(itemsViewModel)
         }
     }
 

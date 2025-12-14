@@ -1,4 +1,4 @@
-package rs.example.playlistmaker.player.ui
+﻿package rs.example.playlistmaker.player.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,38 +6,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import rs.example.playlistmaker.player.ui.view_model.PlayerViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import rs.example.playlistmaker.AppConstant.Companion.CLICK_DEBOUNCE_DELAY_LIST
 import rs.example.playlistmaker.R
 import rs.example.playlistmaker.databinding.AudioPlayerBinding
 import rs.example.playlistmaker.library.domain.model.PlayList
 import rs.example.playlistmaker.main.ui.MainActivityViewModel
 import rs.example.playlistmaker.player.util.PlayerState
 import rs.example.playlistmaker.search.domain.models.Track
-import rs.example.playlistmaker.search.ui.debounce
 import rs.example.playlistmaker.utils.StaffFunctions.getSimpleDateFormatLong
 
 class AudioPlayer : Fragment() {
-
     private val viewModel by viewModel<PlayerViewModel>()
     private val hostViewModel by activityViewModel<MainActivityViewModel>()
-
     private var _binding: AudioPlayerBinding? = null
     private val binding get() = _binding!!
     private val playlists = mutableListOf<PlayList>()
     var track: Track? = null
-    private lateinit var onPlayListClickDebounce: (PlayList) -> Unit
-    private val adapter = SmallPlayListAdapter(playlists) {
-        //track?.let { it1 -> viewModel.addToPlaylist(it1, it) }
-        onPlayListClickDebounce(it)
-    }
+    private val adapter = SmallPlayListAdapter(playlists)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,14 +43,6 @@ class AudioPlayer : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        onPlayListClickDebounce = debounce(
-            CLICK_DEBOUNCE_DELAY_LIST,
-            viewLifecycleOwner.lifecycleScope,
-            false
-        ) { playlists ->
-            track?.let { it1 -> viewModel.addToPlaylist(it1, playlists) }
-        }
-
         hostViewModel.getCurrentTrack().observe(viewLifecycleOwner) { currentTrack ->
             this.track = currentTrack
             renderInformation(currentTrack)
@@ -67,15 +52,29 @@ class AudioPlayer : Fragment() {
             state = BottomSheetBehavior.STATE_HIDDEN
         }
 
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.setOnScrollChangeListener { _, _, _, _, _ ->
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior.isDraggable = layoutManager.findFirstCompletelyVisibleItemPosition() == 0
+            } else {
+                bottomSheetBehavior.isDraggable = true
+            }
+        }
+
+        adapter.clickListener = {
+            track?.let {
+                trk -> viewModel.addToPlaylist(trk, it)
+            }
+        }
+
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
-
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_HIDDEN -> {
                         binding.overlay.visibility = View.GONE
                     }
-
                     else -> {
                         binding.overlay.visibility = View.VISIBLE
                         viewModel.renderPlayLists()
@@ -103,8 +102,9 @@ class AudioPlayer : Fragment() {
         }
 
         viewModel.observeAddDate().observe(viewLifecycleOwner) {
-            //bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            showToast(it)
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED){
+                showToast(it)
+            }
         }
         binding.iwBack.setOnClickListener { findNavController().navigateUp() }
 
@@ -169,13 +169,12 @@ class AudioPlayer : Fragment() {
     }
 
     private fun showToast(result: Pair<String, Boolean>) {
-        val message =
-            if (result.second) {
-                BottomSheetBehavior.from(binding.playlistsBottomSheet).state = BottomSheetBehavior.STATE_HIDDEN
-                getString(R.string.add_track_message)
-            } else {
-                getString(R.string.add_track_message_false)
+        if (result.second) {
+            BottomSheetBehavior.from(binding.playlistsBottomSheet).apply {
+                state = BottomSheetBehavior.STATE_HIDDEN
             }
+        }
+        val message = if (result.second) getString(R.string.add_track_message) else getString(R.string.add_track_message_false)
         Toast.makeText(requireContext(), message + " " + result.first, Toast.LENGTH_SHORT).show()
     }
 
@@ -187,5 +186,5 @@ class AudioPlayer : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
+   }
 }
