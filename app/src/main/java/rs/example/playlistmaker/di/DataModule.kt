@@ -3,6 +3,7 @@ package rs.example.playlistmaker.di
 import android.content.Context
 import android.media.MediaPlayer
 import androidx.room.Room
+import rs.example.playlistmaker.playlist_creator.data.local.FilePrivateStorage
 import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -47,9 +48,20 @@ val dataModule = module {
     factory<ExternalNavigator> { ExternalNavigatorImpl(get<Context>()) }
 
     single {
-        Room.databaseBuilder(androidContext(),
-            AppDatabase::class.java,
-            "data.db")
-            .build().trackDao()
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "data.db")
+            .build()
     }
+
+    single {
+        val database = get<AppDatabase>()
+        database.trackDao()
+    }
+
+
+    single {
+        val database = get<AppDatabase>()
+        database.playListDao()
+    }
+
+    single { FilePrivateStorage(androidContext()) }
 }

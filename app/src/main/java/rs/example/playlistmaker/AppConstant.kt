@@ -7,9 +7,10 @@ class AppConstant {
         const val SHARED_PREF_ID = "rs_app_user_preferences"
         const val SEARCH_KEY_STORE = "search_history_tracks"
         const val THEME_KEY = "rs_theme_key"
-        const val TRACK_ID = "track_id"
         const val DELAY = 300L
         const val CLICK_DEBOUNCE_DELAY = 1000L
         const val SEARCH_DEBOUNCE_DELAY = 2000L
+        const val ALBUM = "myalbum"
+        const val ZERO_TIME = "00:00"
     }
 }

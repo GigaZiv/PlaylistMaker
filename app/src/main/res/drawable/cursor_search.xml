@@ -4,5 +4,5 @@
     <size
         android:width="2dip"/>
     <solid
-        android:color="@color/c_caret_color"/>
+        android:color="@color/blue"/>
 </shape>

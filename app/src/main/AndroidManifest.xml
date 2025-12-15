@@ -2,8 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
 
     <application
         android:name=".App"
@@ -20,16 +24,12 @@
         <activity
             android:name=".main.ui.MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing"
-            android:theme="@style/Theme.App.SplashScreen">
+            android:theme="@style/Theme.App.SplashScreen"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".player.ui.AudioPlayer"
-            android:exported="false" />
     </application>
-
 </manifest>
