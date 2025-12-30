@@ -26,8 +26,7 @@ class SmallPlayListAdapter(
     override fun onBindViewHolder(holder: SmallPlayListViewHolder, position: Int) {
         holder.bind(data[position])
         holder.itemView.setOnClickListener() {
-            val itemsViewModel = data[position]
-            clickListener?.invoke(itemsViewModel)
+            clickListener?.invoke(data[position])
         }
     }
 

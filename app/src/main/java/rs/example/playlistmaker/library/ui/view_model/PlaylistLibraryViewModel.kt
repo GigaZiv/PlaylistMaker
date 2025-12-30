@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import rs.example.playlistmaker.library.domain.PlaylistInteractor
+import rs.example.playlistmaker.library.domain.PlaylistLibraryInteractor
 import rs.example.playlistmaker.library.domain.model.PlayList
 import rs.example.playlistmaker.library.ui.PlaylistsState
 
-class PlaylistViewModel(val interactor: PlaylistInteractor) : ViewModel() {
+class PlaylistLibraryViewModel(val interactor: PlaylistLibraryInteractor) : ViewModel() {
     private val stateLiveData = MutableLiveData<PlaylistsState>()
     fun observeState(): LiveData<PlaylistsState> = stateLiveData
 

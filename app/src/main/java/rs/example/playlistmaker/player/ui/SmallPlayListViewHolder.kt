@@ -25,7 +25,7 @@ class SmallPlayListViewHolder(
         binding.plCount.text = addedText
         val file = File(filePath, "${item.id}.jpg")
         Glide.with(itemView)
-            .load(file.toUri().toString())
+            .load((if (file.exists()) file.toUri().toString() else null))
             .placeholder(R.drawable.ic_track_default)
             .transform(
                 CenterCrop(),

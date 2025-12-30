@@ -31,6 +31,10 @@ class PlayControlImpl(private val mediaPlayer: PlayerClient, private var playerS
         playerState = PlayerState.PAUSED
     }
 
+    override fun reset() {
+        mediaPlayer.reset()
+    }
+
     override fun getProgressTime(): String {
         return if (playerState == PlayerState.PREPARED) ZERO_TIME else getSimpleDateFormatInt(
             mediaPlayer.getCurrentPosition()

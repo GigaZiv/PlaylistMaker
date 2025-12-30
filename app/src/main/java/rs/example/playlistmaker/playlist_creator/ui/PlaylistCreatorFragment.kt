@@ -1,13 +1,7 @@
 package rs.example.playlistmaker.playlist_creator.ui
 
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -18,32 +12,28 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import rs.example.playlistmaker.AppConstant.Companion.ALBUM
 import rs.example.playlistmaker.R
 import rs.example.playlistmaker.databinding.FragmentPlaylistCreatorBinding
 import java.io.File
 
-class PlaylistCreatorFragment : Fragment() {
+open class PlaylistCreatorFragment : Fragment() {
 
-    private val viewModel by viewModel<PlayListCreatorViewModel>()
+    open val viewModel by viewModel<PlayListCreatorViewModel>()
 
     private var _binding: FragmentPlaylistCreatorBinding? = null
-    private val binding get() = _binding!!
+    val binding get() = _binding!!
     private var nameInputText: String = ""
     private var descriptionTextWatcher: TextWatcher? = null
     private var nameTextWatcher: TextWatcher? = null
-    private lateinit var filePath: File
-
+    lateinit var filePath: File
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +44,6 @@ class PlaylistCreatorFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         filePath =
             File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), ALBUM)
@@ -64,63 +53,19 @@ class PlaylistCreatorFragment : Fragment() {
                     showPicture(uri.toString())
                     viewModel.setUri(uri)
                 } else {
-                    Log.d("rs", "No!")
+                    Log.d("PhotoPicker", "No media selected")
                 }
             }
-        val backAlertDialog = MaterialAlertDialogBuilder(requireActivity())
-            .setTitle(R.string.back_alert_title)
-            .setMessage(R.string.back_alert_message)
-            .setNegativeButton(R.string.negative_button) { _, _ ->
-            }
-            .setPositiveButton(getString(R.string.positive_button)) { _, _ ->
-                findNavController().navigateUp()
-
-            }
-
-        val permissionLauncher = registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted ->
-            if (isGranted) {
-                Log.i("rs", "YES PackageManager.PERMISSION_GRANTED!!!")
-                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-            } else {
-                // Непонятно по заданию что надо сделать если не предоставлено никаких разрешений
-                // Открыть настройки ? и Заставить дать разрешения ? Или ничего не делать ?
-                Log.i("rs", "NO PackageManager.PERMISSION_GRANTED!!!")
-                //openAppSpecificSettings()
-            }
+        viewModel.observeStateLiveData().observe(viewLifecycleOwner) {
+            renderSave(it)
         }
-
         binding.playListImage.setOnClickListener {
-            when {
-                activity?.let { ctx ->
-                    ContextCompat.checkSelfPermission(
-                        ctx,
-                        Manifest.permission.READ_MEDIA_IMAGES
-                    )
-                } == PackageManager.PERMISSION_GRANTED
-                    -> {
-                    pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                }
-
-                shouldShowRequestPermissionRationale(Manifest.permission.READ_MEDIA_IMAGES) -> {
-                    openAppSpecificSettings()
-                }
-
-                else -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
-                    } else {
-                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    }
-
-                }
-            }
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
         nameTextWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 nameInputText = s?.toString() ?: ""
                 viewModel.setName(nameInputText)
@@ -131,14 +76,11 @@ class PlaylistCreatorFragment : Fragment() {
             }
         }
         nameTextWatcher?.let { binding.nameET.addTextChangedListener(it) }
-
         descriptionTextWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.isNullOrEmpty()) {
-                    viewModel.setDescription(s?.toString() ?: "")
-                }
+                viewModel.setDescription(s?.toString() ?: "")
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -147,40 +89,52 @@ class PlaylistCreatorFragment : Fragment() {
         descriptionTextWatcher?.let { binding.descriptionET.addTextChangedListener(it) }
 
         binding.createButton.setOnClickListener {
-            lifecycleScope.launch {
-                if (viewModel.getUri() != null)
-                    viewModel.saveImage(
-                        filePath,
-                        viewModel.savePlaylist(filePath.toURI()),
-                        viewModel.getUri()!!
-                    ) else viewModel.savePlaylist(filePath.toURI())
-                showToast(viewModel.getName())
-                findNavController().navigateUp()
-            }
-
+            savePlaylist()
         }
 
         binding.backButton.setOnClickListener {
-            if (viewModel.checkInput()) backAlertDialog.show() else findNavController().navigateUp()
+            goBack()
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    if (viewModel.checkInput()) backAlertDialog.show() else findNavController().navigateUp()
+                    goBack()
                 }
             })
     }
 
-    private fun showToast(playListName: String) {
+    open fun savePlaylist() {
+        viewModel.savePlaylist(filePath)
+    }
+
+    open fun goBack() {
+        if (viewModel.checkInput()) showDialog() else findNavController().navigateUp()
+    }
+
+
+    private fun showDialog() {
+        MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
+            .setTitle(R.string.back_alert_title)
+            .setMessage(R.string.back_alert_message)
+            .setNegativeButton(R.string.negative_button) { _, _ ->
+            }
+            .setPositiveButton(getString(R.string.positive_button)) { _, _ ->
+                findNavController().navigateUp()
+            }.show()
+    }
+
+    private fun renderSave(playListName: String) {
+        findNavController().navigateUp()
         val message = getString(R.string.add_playlist_message).format(playListName)
         Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun showPicture(pictureUri: String) {
+    fun showPicture(pictureUri: String) {
         Glide.with(requireActivity())
             .load(pictureUri)
+            .placeholder(R.drawable.placeholder)
             .transform(
                 CenterCrop(),
                 RoundedCorners(requireActivity().resources.getDimensionPixelSize(R.dimen.i_p_8))
@@ -188,12 +142,8 @@ class PlaylistCreatorFragment : Fragment() {
             .into(binding.playListImage)
     }
 
-    fun openAppSpecificSettings() {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            data = Uri.fromParts("package", context?.packageName, null)
-        }
-        startActivity(intent)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
-
 }
