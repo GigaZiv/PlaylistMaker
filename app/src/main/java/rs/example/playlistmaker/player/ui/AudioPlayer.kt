@@ -30,7 +30,9 @@ class AudioPlayer : Fragment() {
     private val binding get() = _binding!!
     private val playlists = mutableListOf<PlayList>()
     var track: Track? = null
-    private val adapter = SmallPlayListAdapter(playlists)
+    private val adapter = SmallPlayListAdapter(playlists) {
+        track?.let { it1 -> viewModel.addToPlaylist(it1, it) }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,12 +61,6 @@ class AudioPlayer : Fragment() {
                 bottomSheetBehavior.isDraggable = layoutManager.findFirstCompletelyVisibleItemPosition() == 0
             } else {
                 bottomSheetBehavior.isDraggable = true
-            }
-        }
-
-        adapter.clickListener = {
-            track?.let {
-                trk -> viewModel.addToPlaylist(trk, it)
             }
         }
 
@@ -114,6 +110,7 @@ class AudioPlayer : Fragment() {
         }
 
         binding.addPlaylistButton.setOnClickListener {
+            viewModel.mediaPlayerReset()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             findNavController().navigate((R.id.action_audioPlayer_to_playlistCreatorFragment))
         }

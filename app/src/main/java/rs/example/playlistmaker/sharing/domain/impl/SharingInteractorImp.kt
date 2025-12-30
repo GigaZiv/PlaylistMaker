@@ -1,5 +1,6 @@
 package rs.example.playlistmaker.sharing.domain.impl
 
+import rs.example.playlistmaker.library.domain.model.PlayList
 import rs.example.playlistmaker.sharing.domain.SharingInteractor
 import rs.example.playlistmaker.sharing.domain.SharingRepository
 
@@ -14,6 +15,10 @@ class SharingInteractorImp(private val sharingRepository: SharingRepository) : S
 
     override fun openSupport() {
         sharingRepository.openSupport()
+    }
+
+    override fun sharePlayList(playlist: PlayList) {
+        sharingRepository.sharePlayList(playlist)
     }
 
 }
